@@ -6,7 +6,7 @@ xcode_scheme:
     - pwsafe-debug
 
 install:
-    - brew install wxmac --with-static
+    - brew install -v wxmac --with-static
     - Xcode/generate-configs-from-homebrew
 
 script:
