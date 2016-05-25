@@ -1,11 +1,12 @@
 os:
     - osx
 
-xcode_project: Xcode/pwsafe-xcode6.xcodeproj
-
 xcode_scheme:
     - pwsafe-release
     - pwsafe-debug
 
 install:
     - brew install wxWidgets --with-static
+
+script:
+    - xcodebuild -project Xcode/pwsafe-xcode6.xcodeproj -scheme pwsafe
