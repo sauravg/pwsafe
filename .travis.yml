@@ -8,4 +8,4 @@ xcode_scheme:
     - pwsafe-debug
 
 install:
-    - brew install wxWidgets with-static
+    - brew install wxWidgets --with-static
