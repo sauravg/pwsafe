@@ -1,0 +1,15 @@
+#!/bin/sh
+
+WX_CONFIG=$(brew list wxWidgets | head -1)
+
+OUTDIR=$(dirname "$0")
+GENERATOR="$OUTDIR"/generate-configs
+
+if [ -x "$WX_CONFIG" ]
+then
+    "$GENERATOR" -d "$WX_CONFIG" > "$OUTDIR"/pwsafe-debug.xcconfig
+    "$GENERATOR" -r "$WX_CONFIG" > "$OUTDIR"/pwsafe-release.xcconfig
+else
+    echo "No executable wx-config found: $WX_CONFIG" 1>&2
+    exit 1
+fi
