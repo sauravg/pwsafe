@@ -1,9 +1,7 @@
 os:
     - osx
 
-xcode_scheme:
-    - pwsafe-release
-    - pwsafe-debug
+language: cpp
 
 install:
     - brew install -v wxmac --with-static
