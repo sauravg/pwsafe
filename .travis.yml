@@ -4,11 +4,19 @@ os:
 language: cpp
 
 install:
-    - brew install -v wxmac --with-static
-    - Xcode/generate-configs-from-homebrew
+# This just downloads pre-biuilt binaries which are all dylibs
+# TBD: try this forumuale
+# https://github.com/Homebrew/homebrew-core/blob/master/Formula/wxmac.rb
+# This would take the --with-static args to build static libs
+# We'd have to cache that build using ccache
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install wxmac; fi
+
+before_script:
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then Xcode/generate-configs-from-homebrew; fi
 
 script:
-    - xcodebuild -project Xcode/pwsafe-xcode6.xcodeproj -scheme pwsafe
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then xcodebuild -project Xcode/pwsafe-xcode6.xcodeproj -scheme pwsafe; fi
+
 deploy:
   provider: s3
   region: us-east-1
