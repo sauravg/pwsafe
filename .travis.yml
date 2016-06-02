@@ -3,7 +3,7 @@ os:
     - linux
 
 before_install:
-    - sudo apt-get -qq update
+    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get -qq update; fi
 
 addons:
     apt:
