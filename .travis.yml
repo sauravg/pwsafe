@@ -60,8 +60,8 @@ deploy:
   secret_access_key:
     secure: dVRt8K3eQ2F6eyys2d/zuGBKpexl6uXvQPeDv1gWRkuovoaaMlwwn9OHN8fSF4nyNfSUwzzmQeMiTMRtE3EZelOpGoJ1fn5YxfsU9aQD23U2EIFtUsOoaEtfNhwNqMtx+A4Gw+FuKI4Lc3gP+9JNa6N62WDsC3eKuUWAZuezX9zlckQDngH7Yu/r+UpoILBvHCcH6JmPyHwnXGjOpUUdrvZmBQZ9CX/HoaF1O147a1pbXNCiyjv7BKiIMeUOxV6MYTOuN4z0hhTXN6c30krwV62sazR4DBzPokvWRmaFvaW956hbvpp9V3GLCC5+A13C6JItTtryWbIYeoAbSxWVwzxX1/thIsXfoWBhlYbopVo1mVH8J8YSnd9vjvdXPP7Usn6p0c8EipilZXtOXLpbCnRhLbihKzo/Zntnv4dT2ADqT9XaW60i/JY+KpQ22mo2dfk6tQ6/UmPE0TZ9gr54lDTuQyX9O85yWR/2MR+MsJy78UYm/DNCAq3kWMW2G29FLKTt+3n489nzwT9zehP27zqvce1RCl2kDDGYNRGPE3Rbfl9QeB7Gfsa2MSo18sGMEHLFQjFSqYHTPYalB0FOx2yKZmB+wxMeaL7GSQFjm4RgtGkGkE9VnvQXtT3PGWrQL++FE16gloJjCVBRgpPqbg5b4/Hhg/ncM6LN4CCyOq8=
   bucket: travis-pwsafe-builds
-  local-dir: /bin/echo "$BUILD_DIR"
-  upload-dir: /bin/echo "$UPLOAD_DIR"
+  local-dir: "$BUILD_DIR"
+  upload-dir: "$UPLOAD_DIR"
   acl: public_read
   on:
     repo: sauravg/pwsafe
