@@ -17,6 +17,7 @@ addons:
             - "libyubikey-dev"
             - "uuid-dev"
             - "pkg-config"
+            - "libgtest-dev"
 
 language: cpp
 
@@ -47,8 +48,7 @@ before_script:
 
 script:
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then xcodebuild -project Xcode/pwsafe-xcode6.xcodeproj -scheme pwsafe; fi
-    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then make unicoderelease && mkdir -p dist && cp src/ui/wxWidgets/GCCUnicodeRelease/pwsafe dist/; fi
-    - make test
+    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then make unicoderelease && make test && mkdir -p dist && cp src/ui/wxWidgets/GCCUnicodeRelease/pwsafe dist/; fi
 
 deploy:
   provider: s3
