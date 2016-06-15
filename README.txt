@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/sauravg/pwsafe.svg?branch=master)](https://travis-ci.org/sauravg/pwsafe)
+
 Introduction:
 =============
 Password Safe is a password database utility. Like many other such
