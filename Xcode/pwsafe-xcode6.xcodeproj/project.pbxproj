@@ -1479,7 +1479,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# adapted from https://gist.github.com/dataich/950511\n\nset -ex\n\n[ \"$ACTION\" = build ] || exit 0\n[ \"$BUILD_VARIANTS\" = \"normal\" ] || exit 0\n[ \"$CONFIGURATION\" = \"Release\" ] || BUILD_TYPE=\"-$CONFIGURATION\"\n\ndir=\"$TEMP_FILES_DIR/disk\"\ninstallers_dir=\"$PROJECT_DIR/installers\"\ndmg=\"$installers_dir/$TARGET_NAME$BUILD_TYPE.dmg\"\n\nrm -rf \"$dir\"\nmkdir \"$dir\"\nmkdir -p \"$installers_dir\"\n\ncp -R \"$BUILT_PRODUCTS_DIR/$TARGET_NAME.app\" \"$dir/$TARGET_NAME$BUILD_TYPE.app\"\ncp -R \"$PROJECT_DIR/../README.txt\" \"$dir\"\ncp -R \"$PROJECT_DIR/../LICENSE\" \"$dir\"\nln -s \"/Applications\" \"$dir/Applications\"\nrm -f \"$dmg\"\nhdiutil create -srcfolder \"$dir\" -volname \"$TARGET_NAME$BUILD_TYPE\" \"$dmg\"\nrm -rf \"$dir\"";
+			shellScript = "# adapted from https://gist.github.com/dataich/950511\n\nset -ex\n\n[ \"$ACTION\" = build ] || exit 0\n[ \"$BUILD_VARIANTS\" = \"normal\" ] || exit 0\n[ \"$CONFIGURATION\" = \"Release\" ] || BUILD_TYPE=\"-$CONFIGURATION\"\n\ndir=\"$TEMP_FILES_DIR/disk\"\ninstallers_dir=\"$PROJECT_DIR/installers\"\ndmg=\"$installers_dir/$TARGET_NAME$BUILD_TYPE.dmg\"\n\nrm -rf \"$dir\"\nmkdir \"$dir\"\nmkdir -p \"$installers_dir\"\n\ncp -R \"$BUILT_PRODUCTS_DIR/$TARGET_NAME.app\" \"$dir/$TARGET_NAME$BUILD_TYPE.app\"\ncp -R \"$PROJECT_DIR/../README.md\" \"$dir\"\ncp -R \"$PROJECT_DIR/../LICENSE\" \"$dir\"\nln -s \"/Applications\" \"$dir/Applications\"\nrm -f \"$dmg\"\nhdiutil create -srcfolder \"$dir\" -volname \"$TARGET_NAME$BUILD_TYPE\" \"$dmg\"\nrm -rf \"$dir\"";
 		};
 		E6CFEEF711EA3E2F001402D8 /* Generate version.h */ = {
 			isa = PBXShellScriptBuildPhase;
