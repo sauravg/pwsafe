@@ -48,6 +48,7 @@ before_script:
 script:
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then xcodebuild -project Xcode/pwsafe-xcode6.xcodeproj -scheme pwsafe; fi
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then make unicoderelease && mkdir -p dist && cp src/ui/wxWidgets/GCCUnicodeRelease/pwsafe dist/; fi
+    - make test
 
 deploy:
   provider: s3
