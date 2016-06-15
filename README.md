@@ -8,6 +8,7 @@ combination"), instead of all the username/password combinations that
 you use.
 
 What makes Password Safe different? Three things:
+
 1. Simplicity: Password Safe is designed to do one thing, and to do it well. Start the application, enter your "combination", double-click on the right entry - presto - the password is now on your clipboard, ready for pasting.
 2. Security: The original version was designed by Bruce Schneier - 'nuff said.
 3. Open Source: The source code for the project is available for inspection. For more information, see https://pwsafe.org.
