@@ -20,6 +20,9 @@
 #include "./diff.h"
 #include "./safeutils.h"
 #include "./impexp.h"
+#include "./cli_task.h"
+#include "./cli_sync.h"
+#include "./cli_merge.h"
 
 #include "../../core/PWScore.h"
 #include "os/file.h"
@@ -29,12 +32,6 @@
 
 using namespace std;
 
-int SaveCore(PWScore &core, const UserArgs &);
-
-// These are the new operations. Each returns the code to exit with
-static int CreateNewSafe(PWScore &core, const StringX& filename);
-static int Sync(PWScore &core, const UserArgs &ua);
-static int Merge(PWScore &core, const UserArgs &ua);
 
 //-----------------------------------------------------------------
 
@@ -304,67 +301,3 @@ int main(int argc, char *argv[])
   return status;
 }
 
-static int CreateNewSafe(PWScore &core, const StringX& filename)
-{
-    if ( pws_os::FileExists(filename.c_str()) ) {
-        wcerr << filename << L" - already exists" << endl;
-        exit(1);
-    }
-
-    const StringX passkey = GetNewPassphrase();
-    core.SetCurFile(filename);
-    core.NewFile(passkey);
-
-    return PWScore::SUCCESS;
-}
-
-int SaveCore(PWScore &core, const UserArgs &ua)
-{
-  if (!ua.dry_run)
-    return core.WriteCurFile();
-
-  return PWScore::SUCCESS;
-}
-
-int Sync(PWScore &core, const UserArgs &ua)
-{
-  const StringX otherSafe{std2stringx(ua.opArg)};
-  PWScore otherCore;
-  int status = OpenCore(otherCore, otherSafe);
-  if ( status == PWScore::SUCCESS ) {
-    CReport rpt;
-    int numUpdated = 0;
-    core.Synchronize(&otherCore,
-                      ua.fields,          // fields to sync
-                      ua.subset.valid(),  // filter?
-                      ua.subset.value,    // filter value
-                      ua.subset.field,    // field to filter by
-                      ua.subset.rule,     // type of match rule for filtering
-                      numUpdated,
-                      &rpt,               // Must be non-null
-                      NULL                // Cancel mechanism. We don't need one
-    );
-    otherCore.UnlockFile(otherSafe.c_str());
-  }
-  return status;
-}
-
-int Merge(PWScore &core, const UserArgs &ua)
-{
-  const StringX otherSafe{std2stringx(ua.opArg)};
-  PWScore otherCore;
-  int status = OpenCore(otherCore, otherSafe);
-  if ( status == PWScore::SUCCESS ) {
-    CReport rpt;
-    core.Merge(&otherCore,
-               ua.subset.valid(),  // filter?
-               ua.subset.value,    // filter value
-               ua.subset.field,    // field to filter by
-               ua.subset.rule,     // type of match rule for filtering
-               &rpt,               // Must be non-null
-               NULL                // Cancel mechanism. We don't need one
-    );
-    otherCore.UnlockFile(otherSafe.c_str());
-  }
-  return status;
-}

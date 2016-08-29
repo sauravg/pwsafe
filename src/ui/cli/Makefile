@@ -2,7 +2,8 @@
 #
 
 SRC         = main.cpp search.cpp argutils.cpp searchaction.cpp strutils.cpp \
-			  safeutils.cpp diff.cpp impexp.cpp
+			  safeutils.cpp diff.cpp impexp.cpp cli_task.cpp cli_sync.cpp \
+			  cli_merge.cpp
 
 TESTSRC         = add-entry-test.cpp arg-fields-test.cpp split-test.cpp \
 				  safeutils.cpp argutils.cpp searchaction.cpp strutils.cpp \

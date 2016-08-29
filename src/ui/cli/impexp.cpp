@@ -222,3 +222,15 @@ ImportXML(PWScore &core, const stringT &fname)
   return rc;
 }
 
+bool cli_impexp::handle_arg( const char *name, const char *val) /*override*/ {
+  if ( strcmp(val, "text") == 0 ) {
+    format = InputType::text;
+    return true;
+  }
+  else if (strcmp(val, "xml") == 0) {
+    format = InputType::xml;
+    return true;
+  }
+  else
+    return false;
+}

@@ -193,3 +193,25 @@ int InitPWPolicy(PWPolicy &pwp, PWScore &core)
   }
   return PWScore::SUCCESS;
 }
+
+int CreateNewSafe(PWScore &core, const StringX& filename)
+{
+    if ( pws_os::FileExists(filename.c_str()) ) {
+        wcerr << filename << L" - already exists" << endl;
+        exit(1);
+    }
+
+    const StringX passkey = GetNewPassphrase();
+    core.SetCurFile(filename);
+    core.NewFile(passkey);
+
+    return PWScore::SUCCESS;
+}
+
+int SaveCore(PWScore &core, const UserArgs &ua)
+{
+  if (!ua.dry_run)
+    return core.WriteCurFile();
+
+  return PWScore::SUCCESS;
+}
