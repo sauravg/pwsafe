@@ -34,6 +34,9 @@
 		E6112A64131D720E00AA1454 /* ExpiredList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E6112A61131D720E00AA1454 /* ExpiredList.cpp */; };
 		E61C265E1D3FD0C000CA0370 /* impexp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E61C265C1D3FD0C000CA0370 /* impexp.cpp */; };
 		E61D6FA312617EFC0049FA2A /* MergeDlg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E61D6FA112617EFC0049FA2A /* MergeDlg.cpp */; };
+		E61F984D1D7C4C31008CCCDD /* cli_merge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E61F98451D7C4C31008CCCDD /* cli_merge.cpp */; };
+		E61F984E1D7C4C31008CCCDD /* cli_sync.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E61F98471D7C4C31008CCCDD /* cli_sync.cpp */; };
+		E61F984F1D7C4C31008CCCDD /* cli_task.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E61F98491D7C4C31008CCCDD /* cli_task.cpp */; };
 		E6299FB71D0323A300D03FD1 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E66D293A1D02B54600C9BCBF /* main.cpp */; };
 		E6651E9C14E914320057D8EC /* pwsmenushortcuts.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E6651E9A14E914320057D8EC /* pwsmenushortcuts.cpp */; };
 		E66C16A416731E2100C996B1 /* SelectionCriteria.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E66C16A316731E2100C996B1 /* SelectionCriteria.cpp */; };
@@ -257,6 +260,14 @@
 		E61C265D1D3FD0C000CA0370 /* impexp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = impexp.h; sourceTree = "<group>"; };
 		E61D6FA112617EFC0049FA2A /* MergeDlg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MergeDlg.cpp; sourceTree = "<group>"; };
 		E61D6FA212617EFC0049FA2A /* MergeDlg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MergeDlg.h; sourceTree = "<group>"; };
+		E61F98451D7C4C31008CCCDD /* cli_merge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cli_merge.cpp; sourceTree = "<group>"; };
+		E61F98461D7C4C31008CCCDD /* cli_merge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cli_merge.h; sourceTree = "<group>"; };
+		E61F98471D7C4C31008CCCDD /* cli_sync.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cli_sync.cpp; sourceTree = "<group>"; };
+		E61F98481D7C4C31008CCCDD /* cli_sync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cli_sync.h; sourceTree = "<group>"; };
+		E61F98491D7C4C31008CCCDD /* cli_task.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cli_task.cpp; sourceTree = "<group>"; };
+		E61F984A1D7C4C31008CCCDD /* cli_task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cli_task.h; sourceTree = "<group>"; };
+		E61F984B1D7C4C31008CCCDD /* safeutils-internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "safeutils-internal.h"; sourceTree = "<group>"; };
+		E61F984C1D7C4C31008CCCDD /* search-internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "search-internal.h"; sourceTree = "<group>"; };
 		E6299FB91D07161E00D03FD1 /* SearchUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchUtils.h; sourceTree = "<group>"; };
 		E6651E9A14E914320057D8EC /* pwsmenushortcuts.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pwsmenushortcuts.cpp; sourceTree = "<group>"; };
 		E6651E9B14E914320057D8EC /* pwsmenushortcuts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pwsmenushortcuts.h; sourceTree = "<group>"; };
@@ -773,6 +784,14 @@
 		E66D29301D02B49B00C9BCBF /* pwsafe-cli */ = {
 			isa = PBXGroup;
 			children = (
+				E61F98451D7C4C31008CCCDD /* cli_merge.cpp */,
+				E61F98461D7C4C31008CCCDD /* cli_merge.h */,
+				E61F98471D7C4C31008CCCDD /* cli_sync.cpp */,
+				E61F98481D7C4C31008CCCDD /* cli_sync.h */,
+				E61F98491D7C4C31008CCCDD /* cli_task.cpp */,
+				E61F984A1D7C4C31008CCCDD /* cli_task.h */,
+				E61F984B1D7C4C31008CCCDD /* safeutils-internal.h */,
+				E61F984C1D7C4C31008CCCDD /* search-internal.h */,
 				E61C265C1D3FD0C000CA0370 /* impexp.cpp */,
 				E61C265D1D3FD0C000CA0370 /* impexp.h */,
 				E6B908DE1D30C8980050CFF1 /* diff.cpp */,
@@ -1644,8 +1663,11 @@
 				E6B908E21D30C8980050CFF1 /* diff.cpp in Sources */,
 				E6EBC8171D17165300AF61CD /* searchaction.cpp in Sources */,
 				E6EBC8141D16F9B600AF61CD /* argutils.cpp in Sources */,
+				E61F984E1D7C4C31008CCCDD /* cli_sync.cpp in Sources */,
+				E61F984D1D7C4C31008CCCDD /* cli_merge.cpp in Sources */,
 				E6B908E31D30C8980050CFF1 /* safeutils.cpp in Sources */,
 				E6EBC8111D16F47F00AF61CD /* search.cpp in Sources */,
+				E61F984F1D7C4C31008CCCDD /* cli_task.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
