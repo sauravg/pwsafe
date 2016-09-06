@@ -8,6 +8,9 @@
 
 namespace {
 
+using std::make_tuple;
+std::wostringstream os;
+
 // The fixture for testing Search dispatch function.
 class SearchTest : public ::testing::Test {
  protected:
@@ -28,9 +31,6 @@ class SearchTest : public ::testing::Test {
   virtual void SetUp() {
     // Code here will be called immediately after the constructor (right
     // before each test).
-    using std::make_tuple;
-    std::wostringstream os;
-
     AddEntryWithFields(core, {make_tuple(CItemData::TITLE, L"SomeTitle"),
                               make_tuple(CItemData::EMAIL, L"test@example.com"),
                               make_tuple(CItemData::URL,   L"http://example.com"),
@@ -127,5 +127,42 @@ TEST_F(SearchTest, SearchAndChangePasswords) {
   EXPECT_NE( before, after );
 }
 
+TEST_F(SearchTest, SearchConditionallyAndChangePasswords) {
+  UserArgs ua;
+
+  // Add an entry with a different group, but everything else same as the existing entry
+  int added = AddEntryWithFields(core, {make_tuple(CItemData::TITLE, L"SomeTitle"),
+                            make_tuple(CItemData::EMAIL, L"test@example.com"),
+                            make_tuple(CItemData::URL,   L"http://example.com"),
+                            make_tuple(CItemData::GROUP, L"Example.Group2"),
+                            make_tuple(CItemData::USER,  L"ExampleUser"),
+                            make_tuple(CItemData::NOTES, L"Line1\nLine2\nLine3"), }, os);
+
+  EXPECT_EQ(added, PWScore::SUCCESS);
+
+  ua.Operation = UserArgs::OpType::Search;
+  ua.opArg = L"SomeTitle";
+  ua.confirmed = true;
+  ua.SetSubset(L"Group==Example.Group2");
+  ua.SearchAction = UserArgs::ChangePassword;
+
+  auto group2passwd = [this](const StringX& group) {
+    auto itr = find_if(core.GetEntryIter(), core.GetEntryEndIter(),
+            [&group](const ItemList_Pair& p) { return p.second.GetGroup() == group; });
+    return itr == core.GetEntryEndIter()? StringX{}: itr->second.GetPassword();
+  };
+
+  const StringX pass1before = group2passwd(L"Example.Group");
+  const StringX pass2before = group2passwd(L"Example.Group2");
+
+  SearchInternal(core, ua, os);
+
+  EXPECT_EQ( core.GetNumEntries(), 2 );
+  const StringX pass1after = group2passwd(L"Example.Group");
+  const StringX pass2after = group2passwd(L"Example.Group2");
+
+  EXPECT_NE( pass2after, pass2before );
+  EXPECT_EQ( pass1after, pass1before );
+}
 
 }  // namespace
