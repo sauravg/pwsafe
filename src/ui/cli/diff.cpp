@@ -395,3 +395,37 @@ int Diff(PWScore &core, const UserArgs &ua)
   }
   return status;
 }
+
+bool cli_diff::handle_arg(const char *name, const char *value)
+{
+  auto is_arg_with_val = [name, value](const char *arg) {
+    return strcmp(arg, name) == 0 && value != nullptr && value[0] != 0;
+  };
+
+  auto is_null_arg = [name, value](const char *arg) {
+    return strcmp(arg, name) == 0 && value == nullptr;
+  };
+
+  if ( is_arg_with_val("subset") ) {
+    subset = ParseSubset(Utf82wstring(value));
+    return true;
+  }
+  else if ( is_arg_with_val("fields") ) {
+    fieldValues = ParseFieldValues(Utf82wstring(value));
+    return true;
+  }
+  else if ( is_null_arg("unified") ) {
+    fmt = UserArgs::DiffFmt::Unified;
+    return true;
+  }
+  else if (is_null_arg("context")) {
+    fmt = UserArgs::DiffFmt::Context;
+    return true;
+  }
+  else if (is_null_arg("sidebyside")) {
+    fmt = UserArgs::DiffFmt::SideBySide;
+    return true;
+  }
+
+  return false;
+}
