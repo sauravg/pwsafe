@@ -21,11 +21,12 @@ int InitPWPolicy(PWPolicy &pwp, PWScore &core);
 class cli_create_safe: public cli_task
 {
 public:
-  cli_create_safe();
+  cli_create_safe(): cli_task{'c', "new", no_argument}{}
   static string_vec long_help();
-  static wstring short_help();
+  static wstring short_help() {
+    return L"--new ";
+  }
   virtual int execute(PWScore &core)              override;
-  virtual bool handle_arg( const char *name, const char *value) override;
 };
 
 class cli_add_entry: public cli_task
