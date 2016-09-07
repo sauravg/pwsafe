@@ -229,3 +229,16 @@ int cli_create_safe::execute(PWScore &core)
   return status;
 }
 
+string_vec cli_add_entry::long_help()
+{
+  string_vec help{ short_help() };
+  help.insert(help.end(), fields_help.begin(), fields_help.end());
+  return help;
+}
+
+int cli_add_entry::execute(PWScore &core)
+{
+  int status = AddEntryWithFields(core, ParseFieldValues(str2wstr(op_param)), wcerr);
+  if (status == PWScore::SUCCESS) dirty = true;
+  return status;
+}

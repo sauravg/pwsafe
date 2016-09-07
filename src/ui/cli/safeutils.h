@@ -32,10 +32,10 @@ public:
 class cli_add_entry: public cli_task
 {
 public:
-  cli_add_entry();
+  cli_add_entry(): cli_task{'a', "add", required_argument}{}
   static string_vec long_help();
-  static wstring short_help();
-  virtual bool is_dirty() const                   override;
+  static wstring short_help() {
+    return L"--add=field1=value1,field2=value2,...";
+  }
   virtual int execute(PWScore &core)              override;
-  virtual bool handle_arg( const char *name, const char *value) override;
 };
