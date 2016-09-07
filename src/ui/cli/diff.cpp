@@ -342,42 +342,40 @@ static void sidebyside_diff(const PWScore &core, const PWScore &otherCore,
   sbs_print<blank, field_to_line>(core, otherCore, comparison, comparedFields, cols);
 }
 
-///////////////////////////////////
-// dispatcher. Called from main()
-/////////
-int Diff(PWScore &core, const UserArgs &ua)
+int Diff(PWScore &core, const StringX &otherSafe, const Restriction &subset,
+         const CItemData::FieldBits &fields, UserArgs::DiffFmt dfmt,
+         unsigned int colwidth)
 {
   CompareData current, comparison, conflicts, identical;
   PWScore otherCore;
   constexpr bool treatWhitespacesAsEmpty = false;
-  const StringX otherSafe{std2stringx(ua.opArg)};
 
-  CItemData::FieldBits safeFields{ua.fields};
+  CItemData::FieldBits safeFields{fields};
   safeFields.reset(CItem::POLICY);
   for_each( begin(diff_fields), end(diff_fields),
-                [&ua, &safeFields](CItemData::FieldType ft) {
-    if (ua.fields.test(ft) && CItemData::IsTextField(ft)) {
-      safeFields.set(ft);
-    }
-  });
+           [&fields, &safeFields](CItemData::FieldType ft) {
+             if (fields.test(ft) && CItemData::IsTextField(ft)) {
+               safeFields.set(ft);
+             }
+           });
   safeFields.reset(CItem::POLICY);
   safeFields.reset(CItem::RMTIME);
 
   int status = OpenCore(otherCore, otherSafe);
   if ( status == PWScore::SUCCESS ) {
     core.Compare( &otherCore,
-                  safeFields,
-                         ua.subset.valid(),
-                         treatWhitespacesAsEmpty,
-                         ua.subset.value,
-                         ua.subset.field,
-                         ua.subset.rule,
-                         current,
-                         comparison,
-                         conflicts,
-                         identical);
+                 safeFields,
+                 subset.valid(),
+                 treatWhitespacesAsEmpty,
+                 subset.value,
+                 subset.field,
+                 subset.rule,
+                 current,
+                 comparison,
+                 conflicts,
+                 identical);
 
-    switch (ua.dfmt) {
+    switch (dfmt) {
       case UserArgs::DiffFmt::Unified:
         unified_diff(core, otherCore, current, comparison, conflicts, identical);
         break;
@@ -385,7 +383,7 @@ int Diff(PWScore &core, const UserArgs &ua)
         context_diff(core, otherCore, current, comparison, conflicts, identical);
         break;
       case UserArgs::DiffFmt::SideBySide:
-        sidebyside_diff(core, otherCore, current, comparison, conflicts, identical, safeFields, ua.colwidth);
+        sidebyside_diff(core, otherCore, current, comparison, conflicts, identical, safeFields, colwidth);
         break;
       default:
         assert(false);
@@ -394,6 +392,13 @@ int Diff(PWScore &core, const UserArgs &ua)
     otherCore.UnlockFile(otherSafe.c_str());
   }
   return status;
+}
+///////////////////////////////////
+// dispatcher. Called from main()
+/////////
+int Diff(PWScore &core, const UserArgs &ua)
+{
+  return Diff(core, std2stringx(ua.opArg), ua.subset, ua.fields, ua.dfmt, ua.colwidth);
 }
 
 bool cli_diff::handle_arg(const char *name, const char *value)
@@ -411,7 +416,7 @@ bool cli_diff::handle_arg(const char *name, const char *value)
     return true;
   }
   else if ( is_arg_with_val("fields") ) {
-    fieldValues = ParseFieldValues(Utf82wstring(value));
+    fields = ParseFields(Utf82wstring(value));
     return true;
   }
   else if ( is_null_arg("unified") ) {
@@ -426,6 +431,23 @@ bool cli_diff::handle_arg(const char *name, const char *value)
     fmt = UserArgs::DiffFmt::SideBySide;
     return true;
   }
+  else if (is_null_arg("colwidth")) {
+    colwidth = atoi(value);
+    return true;
+  }
 
   return false;
+}
+
+string_vec cli_diff::long_help()
+{
+  string_vec help{ short_help() };
+  help.insert( help.end(), restrictions_help.begin(), restrictions_help.end() );
+  help.insert( help.end(), fields_help.begin(), fields_help.end() );
+  return help;
+}
+
+int cli_diff::execute(PWScore &core)
+{
+  return Diff(core, str2StringX(op_param), subset, fields, fmt, colwidth );
 }
