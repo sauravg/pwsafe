@@ -50,8 +50,11 @@ public:
   // This can be overriden. If not, just change the protected dirty flag
   virtual bool is_dirty() const                 { return dirty; }
 
-  // Base classes must implement this. Return false if the argument was unexpected 
-  virtual bool handle_arg( const char *name, const char *value) = 0;
+  // Base classes must implement this if they expect more arguments than the value
+  // passed with the main operation. Return false if the argument was unexpected
+  virtual bool handle_arg( const char * /*name*/, const char * /*value*/) {
+    return false;
+  }
 
   // Do the thing here. Return PWScore::SUCCESS etc.
   virtual int execute(PWScore &core)            = 0;
