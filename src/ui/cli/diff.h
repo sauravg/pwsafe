@@ -14,7 +14,7 @@ class cli_diff: public cli_task
   UserArgs::DiffFmt fmt{UserArgs::DiffFmt::Unified};
   unsigned int colwidth{60};
 public:
-  cli_diff();
+  cli_diff(): cli_task{'c', "diff", required_argument}{}
   static string_vec long_help();
   static wstring short_help() {
     return L"--diff=<other-safe>  [--subset=<Field><OP><Value>[/iI]"
