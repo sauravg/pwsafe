@@ -86,5 +86,7 @@ CItemData::FieldBits ParseFields(const std::wstring &f);
 UserArgs::FieldUpdates ParseFieldValues(const std::wstring& updates);
 Restriction ParseSubset(const std::wstring &s);
 
+extern const std::vector<std::wstring> restrictions_help;
+
 
 #endif /* defined(__pwsafe_xcode6__argutils__) */

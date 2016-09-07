@@ -134,3 +134,14 @@ UserArgs::FieldUpdates ParseFieldValues(const wstring &updates)
 void UserArgs::SetFieldValues(const wstring &updates) {
   fieldValues = ParseFieldValues(updates);
 }
+
+const std::vector<std::wstring> restrictions_help = {
+            { L"where OP is one of ==, !==, ^= !^=, $=, !$=, ~=, !~="},
+            { L"= means exactly similar"},
+            { L"^ means begins-with"},
+            { L"$ means ends with"},
+            { L"^ means contains"},
+            { L"! means negation"},
+            { L"a trailing /i => case insensitive, /I => case sensitive"}
+
+};
