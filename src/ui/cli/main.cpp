@@ -131,9 +131,9 @@ bool parseArgs(int argc, char *argv[], UserArgs &ua)
       {"context",     no_argument,        0, 'j'},
       {"sidebyside",  no_argument,        0, 'k'},
       {"dry-run",     no_argument,        0, 'n'},
-      {"synchronize", no_argument,        0, 'z'},
+      {"synchronize", required_argument,  0, 'z'},
     //  {"synch",       no_argument,        0, 'z'},
-      {"merge",       no_argument,        0, 'm'},
+      {"merge",       required_argument,  0, 'm'},
       {"colwidth",    required_argument,  0, 'w'},
       {0, 0, 0, 0}
     };
