@@ -145,3 +145,14 @@ const std::vector<std::wstring> restrictions_help = {
             { L"a trailing /i => case insensitive, /I => case sensitive"}
 
 };
+
+vector<wstring> InitFieldNames()
+{
+  vector<wstring> fieldNames{ L"where fields are"};
+  const String2FieldTypeMap ftmap = InitFieldTypeMap();
+  using pair_type=String2FieldTypeMap::value_type;
+  transform(ftmap.begin(), ftmap.end(), back_inserter(fieldNames), [](pair_type p){ return p.first; });
+  return fieldNames;
+}
+
+const std::vector<std::wstring> fields_help{InitFieldNames()};
