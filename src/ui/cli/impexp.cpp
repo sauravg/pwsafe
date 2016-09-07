@@ -224,13 +224,32 @@ ImportXML(PWScore &core, const stringT &fname)
 
 bool cli_impexp::handle_arg( const char *name, const char *val) /*override*/ {
   if ( strcmp(val, "text") == 0 ) {
-    format = InputType::text;
+    format = FileType::text;
     return true;
   }
   else if (strcmp(val, "xml") == 0) {
-    format = InputType::xml;
+    format = FileType::xml;
     return true;
   }
   else
     return false;
+}
+
+int cli_import::execute(PWScore &core)
+{
+  if (format == FileType::text)
+    return ImportText(core, op_param.empty()? L"file.txt": str2wstr(op_param));
+  else
+    return ImportXML(core, op_param.empty()? L"file.xml": str2wstr(op_param));
+}
+
+int cli_export::execute(PWScore &core)
+{
+  CItemData::FieldBits all;
+  all.set();
+  int N;
+  if (format == FileType::text)
+    return core.WritePlaintextFile(str2StringX(op_param), all, L"", 0, 0, L' ', N);
+  else
+    return core.WriteXMLFile(str2StringX(op_param), all, L"", 0, 0, L' ', N);
 }

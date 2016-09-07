@@ -11,7 +11,7 @@ int Export(PWScore &core, const UserArgs &ua);
 class cli_impexp: public cli_task {
 
 protected:
-  enum class InputType { text, xml } format = InputType::text;
+  enum class FileType { text, xml } format = FileType::text;
 
 public:
   using cli_task::cli_task;
