@@ -4,20 +4,20 @@
 #include "./safeutils.h"
 #include "../../core/PWScore.h"
 
-int Sync(PWScore &core, const UserArgs &ua)
+int Sync(PWScore &core, const StringX &otherSafe,
+              const Restriction &subset, const CItemData::FieldBits &fields,
+              int &numUpdated)
 {
-  const StringX otherSafe{std2stringx(ua.opArg)};
   PWScore otherCore;
   int status = OpenCore(otherCore, otherSafe);
   if ( status == PWScore::SUCCESS ) {
     CReport rpt;
-    int numUpdated = 0;
     core.Synchronize(&otherCore,
-                      ua.fields,          // fields to sync
-                      ua.subset.valid(),  // filter?
-                      ua.subset.value,    // filter value
-                      ua.subset.field,    // field to filter by
-                      ua.subset.rule,     // type of match rule for filtering
+                      fields,          // fields to sync
+                      subset.valid(),  // filter?
+                      subset.value,    // filter value
+                      subset.field,    // field to filter by
+                      subset.rule,     // type of match rule for filtering
                       numUpdated,
                       &rpt,               // Must be non-null
                       NULL                // Cancel mechanism. We don't need one
@@ -26,4 +26,38 @@ int Sync(PWScore &core, const UserArgs &ua)
   }
   return status;
 }
+int Sync(PWScore &core, const UserArgs &ua)
+{
+  int numUpdated = 0;
+  return Sync(core, std2stringx(ua.opArg), ua.subset, ua.fields, numUpdated);
+}
 
+bool cli_sync::handle_arg(const char *name, const char *value)
+{
+  if (strcmp(name, "subset") == 0 && value != nullptr && value[0]) {
+    subset = ParseSubset(Utf82wstring(value));
+    return true;
+  }
+  else if (strcmp(name, "fields") == 0 && value != nullptr && value[0]) {
+    fields = ParseFields(Utf82wstring(value));
+    return true;
+  }
+  return false;
+}
+
+//static
+string_vec cli_sync::long_help()
+{
+  string_vec v = { short_help() };
+  v.insert(v.end(), restrictions_help.begin(), restrictions_help.end());
+  return v;
+}
+
+//  virtual
+int cli_sync::execute(PWScore &core)
+{
+  int numUpdated = 0;
+  int status = Sync(core, str2StringX(op_param), subset, fields, numUpdated);
+  if (numUpdated) dirty = true;
+  return status;
+}
