@@ -20,15 +20,21 @@ int InitPWPolicy(PWPolicy &pwp, PWScore &core);
 
 class cli_create_safe: public cli_task
 {
-  cli_create_safe(int argc, char *argv[]);
 public:
+  cli_create_safe();
+  static string_vec long_help();
+  static wstring short_help();
   virtual int execute(PWScore &core)              override;
+  virtual bool handle_arg( const char *name, const char *value) override;
 };
 
 class cli_add_entry: public cli_task
 {
-  cli_add_entry(int argc, char *argv[]);
 public:
+  cli_add_entry();
+  static string_vec long_help();
+  static wstring short_help();
   virtual bool is_dirty() const                   override;
   virtual int execute(PWScore &core)              override;
+  virtual bool handle_arg( const char *name, const char *value) override;
 };

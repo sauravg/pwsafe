@@ -1,15 +1,20 @@
 #pragma once
 
 #include "./cli_task.h"
+#include "./argutils.h"
 
-class UserArgs;
 int Merge(PWScore &core, const UserArgs &ua);
 
 class cli_merge: public cli_task
 {
-  cli_merge(int argc, char *argv[]);
+  Restriction subset;
 public:
-  virtual bool is_dirty() const                   override;
+  cli_merge(): cli_task{'m', "merge", required_argument}{}
+  static string_vec long_help();
+  static wstring short_help() {
+    return L"--merge=<other-safe> [--subset=<Field><OP><Value>[/iI]]";
+  }
   virtual int execute(PWScore &core)              override;
+  virtual bool handle_arg(const char *name, const char *value) override;
 };
 

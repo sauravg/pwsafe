@@ -21,18 +21,22 @@ public:
 class cli_import: public cli_impexp
 {
 public:
-  cli_import(): cli_impexp('i', "import", optional_argument, {
-    { "--import[=<file>] | -i [<file>] [ --text | --xml ]" }
-  }) {}
-  virtual int execute(PWScore &core)              override {return 0;}
+  cli_import(): cli_impexp('i', "import", optional_argument) {}
+  static string_vec long_help();
+  static wstring short_help() {
+    return L"--import[=<file>] | -i [<file>] [ --text | --xml ]";
+  }
+  virtual int execute(PWScore &core);
 };
 
 class cli_export: public cli_impexp
 {
 public:
-  cli_export(): cli_impexp('e', "export", optional_argument, {
-    { "--export[=<file>] | -e [<file>] [ --text | --xml ]" }
-  }) {}
+  cli_export(): cli_impexp('e', "export", optional_argument) {}
+  static string_vec long_help();
+  static wstring short_help() {
+    return L"--export[=<file>] | -e [<file>] [ --text | --xml ]";
+  }
   virtual bool is_dirty() const                   override { return false; }
   virtual int execute(PWScore &core)              override;
 };

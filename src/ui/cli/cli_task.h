@@ -7,7 +7,9 @@
 
 using std::vector;
 using std::string;
-using string_vec = vector<string>;
+using std::wstring;
+
+using string_vec = vector<wstring>;
 
 class PWScore;
 
@@ -18,11 +20,10 @@ class cli_task
   const char ch_op;
   const std::string str_op;  // An appropriate instance (subclass) is searched for by this field
   const int atype;
-  const string_vec help_str;
 
 public:
-  cli_task(char s, const std::string &l, int t, const string_vec &h):
-        ch_op{s}, str_op{l}, atype{t}, help_str{h}  {}
+  cli_task(char s, const std::string &l, int t):
+        ch_op{s}, str_op{l}, atype{t}  {}
   virtual ~cli_task()  {}
 
 protected:
@@ -43,7 +44,8 @@ public:
 
   // This can be used to print the help just for this operation, or
   // the usage of the entire app
-  string_vec help() const { return help_str; }
+  //static string_vec long_help();
+  //static string short_help();
 
   // This can be overriden. If not, just change the protected dirty flag
   virtual bool is_dirty() const                 { return dirty; }
@@ -61,8 +63,11 @@ public:
 
 class cli_search: public cli_task
 {
-  cli_search(int argc, char *argv[]);
 public:
+  cli_search();
+  static string_vec long_help();
+  static wstring short_help();
   virtual bool is_dirty() const                   override;
   virtual int execute(PWScore &core)              override;
+  virtual bool handle_arg( const char *name, const char *value) override;
 };
