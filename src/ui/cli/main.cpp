@@ -59,6 +59,16 @@ const map<UserArgs::OpType, pws_op> pws_ops = {
   { UserArgs::Merge,       {OpenCore,       Merge,      SaveCore}},
 };
 
+wostream& usage(const char *process, wostream &os, tuple<>) { return os << endl; }
+
+template <typename OpType, typename... Rest>
+wostream& usage(const char *process, wostream &os, tuple<OpType, Rest...>) {
+  os << process << L" <safe> " << OpType::short_help() << endl;
+  return usage(process, os, tuple<Rest...>{});
+}
+
+using OperationTypes = std::tuple<cli_import, cli_export, cli_create_safe, cli_add_entry,
+                                  cli_search, cli_diff, cli_sync, cli_merge>;
 
 static void usage(char *pname)
 {
