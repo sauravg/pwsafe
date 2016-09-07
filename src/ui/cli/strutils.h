@@ -38,6 +38,8 @@ inline std::ostream& operator<<(std::ostream& os, const std::wstring& str)
 void Utf82StringX(const char* filename, StringX& sname);
 
 std::wstring Utf82wstring(const char* utf8str);
+std::wstring str2wstr(const std::string &str);
+StringX str2StringX(const std::string &str);
 
 template <class CallbackType>
 void Split(const std::wstring &str, const std::wstring &sep, CallbackType cb)

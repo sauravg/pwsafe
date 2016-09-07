@@ -34,6 +34,21 @@ wstring Utf82wstring(const char* utf8str)
   return stringx2std(sx);
 }
 
+std::wstring str2wstr(const std::string &str)
+{
+  if (str.empty())
+    return std::wstring{};
+  return Utf82wstring(str.c_str());
+}
+
+StringX str2StringX(const std::string &str)
+{
+  if (str.empty()) return StringX{};
+  StringX sx;
+  Utf82StringX(str.c_str(), sx);
+  return sx;
+}
+
 const char *status_text(int status)
 {
   switch (status) {
