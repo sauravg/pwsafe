@@ -58,6 +58,7 @@ int cli_sync::execute(PWScore &core)
 {
   int numUpdated = 0;
   int status = Sync(core, str2StringX(op_param), subset, fields, numUpdated);
+  assert( core.IsChanged() == (numUpdated > 0) );
   if (numUpdated) dirty = true;
   return status;
 }
