@@ -266,3 +266,44 @@ wstring cli_search::short_help()
            L" [--subset=<Field><OP><string>[/iI] [--fields=f1,f2,..]"
            L" [<operation-on-matched-entries>]";
 }
+inline bool is_operation_arg(const wstring &/*name*/, tuple<>)
+{
+  return false;
+}
+
+template <class Op, class... Rest>
+inline bool is_operation_arg(const wstring &name, tuple<Op, Rest...>)
+{
+  if ( Op::long_arg == name) return true;
+  return is_operation_arg(name, tuple<Rest...>{});
+}
+
+inline bool is_operation_arg(const wstring &name)
+{
+  return is_operation_arg( name, SearchOperations{});
+}
+
+//  virtual
+bool cli_search::handle_arg( const char *name, const char *value)
+{
+  if ( strcmp("subset", name) == 0 ) {
+    subset = ParseSubset(str2wstr(value));
+    return true;
+  }
+  else if ( strcmp("fields", name) == 0 ) {
+    fields = ParseFields(str2wstr(value));
+    return true;
+  }
+  else if ( strcmp("ignore-case", name) == 0 ) {
+    ignore_case = true;
+    return true;
+  }
+  else {
+    const wstring wname{str2wstr(name)};
+    if (is_operation_arg(wname)) {
+      search_action = wname;
+      return true;
+    }
+  }
+  return false;
+}
