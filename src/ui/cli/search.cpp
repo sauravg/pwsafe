@@ -95,54 +95,58 @@ wchar_t Confirm(const wstring &prompt, const wstring &ops,
   return choice;
 }
 
+template <typename action_func_t>
+int SearchAndConfirm(const wstring &prompt, PWScore &core, const UserArgs &ua, action_func_t afn)
+{
+  ItemPtrVec matches;
+  auto matchfn = [&matches](const pws_os::CUUID &/*uuid*/, const CItemData &data) {
+    matches.push_back(&data);
+  };
+
+  const wchar_t help[] = L"[y]es   - yes for this item\n"
+                          "[n]o    - no for this item\n"
+                          "[a]ll   - yes for this item and all remaining items\n"
+                          "[q]uit  - no for this item all remaining items\n"
+                          "a[b]ort - abort operation, even for previous items\n";
+
+  wchar_t choice{ ua.confirmed? L'a': 0 };
+
+  SearchForEntries(core, ua.opArg, ua.ignoreCase, ua.subset, ua.fields,
+      [matchfn, &choice, help, &prompt](const pws_os::CUUID &uuid,
+                           const CItemData &data,
+                           bool *keep_going) {
+
+    if( choice != L'a' )
+      choice = Confirm(prompt, L"ynaqb", help, data);
+
+    switch(choice) {
+      case L'y': case L'a':
+        matchfn(uuid, data);
+        break;
+      case L'n':
+        break;
+      case L'q': case L'b':
+        *keep_going = false;
+        break;
+      default:
+        assert(false);
+        break;
+    }
+
+  });
+
+  if (choice != L'b')
+    return afn(matches);
+
+  return PWScore::SUCCESS;
+}
+
 template <int action, typename action_func_t>
 struct SearchWithConfirmation
 {
   int operator()(PWScore &core, const UserArgs &ua, action_func_t afn)
   {
-    using ActionType = SearchActionTraits<action>;
-
-    ItemPtrVec matches;
-    auto matchfn = [&matches](const pws_os::CUUID &/*uuid*/, const CItemData &data) {
-      matches.push_back(&data);
-    };
-
-    const wchar_t help[] = L"[y]es   - yes for this item\n"
-                            "[n]o    - no for this item\n"
-                            "[a]ll   - yes for this item and all remaining items\n"
-                            "[q]uit  - no for this item all remaining items\n"
-                            "a[b]ort - abort operation, even for previous items\n";
-
-    wchar_t choice{ ua.confirmed? L'a': 0 };
-
-    SearchForEntries(core, ua.opArg, ua.ignoreCase, ua.subset, ua.fields,
-        [matchfn, &choice, help](const pws_os::CUUID &uuid,
-                             const CItemData &data,
-                             bool *keep_going) {
-
-      if( choice != L'a' )
-        choice = Confirm(ActionType::prompt, L"ynaqb", help, data);
-
-      switch(choice) {
-        case L'y': case L'a':
-          matchfn(uuid, data);
-          break;
-        case L'n':
-          break;
-        case L'q': case L'b':
-          *keep_going = false;
-          break;
-        default:
-          assert(false);
-          break;
-      }
-
-    });
-
-    if (choice != L'b')
-      return afn(matches);
-
-    return PWScore::SUCCESS;
+    return SearchAndConfirm(SearchActionTraits<action>::prompt, core, ua, afn);
   }
 };
 
