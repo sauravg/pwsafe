@@ -197,6 +197,9 @@ int Search(PWScore &core, const UserArgs &ua)
   return SearchInternal(core, ua, wcout);
 }
 
+// Any new search operation must be added to this list
+using SearchOperations = std::tuple<Print, Delete, Update, ClearFields, ChangePassword>;
+
 int SearchInternal(PWScore &core, const UserArgs &ua, wostream &os)
 {
   switch( ua.SearchAction) {
@@ -236,4 +239,30 @@ int SearchInternal(PWScore &core, const UserArgs &ua, wostream &os)
       assert(false);
       return PWScore::FAILURE;
   }
+}
+
+string_vec make_long_help(tuple<>) {
+  return string_vec{};
+}
+
+template <class Op, class... Rest>
+string_vec make_long_help( tuple<Op, Rest...>)
+{
+  string_vec v = make_long_help(tuple<Rest...>{});
+  v.push_back(Op::help);
+  return v;
+}
+
+//  static
+string_vec cli_search::long_help()
+{
+  return make_long_help(SearchOperations{});
+}
+
+//  static
+wstring cli_search::short_help()
+{
+    return L"--search=<text> [--ignore-case]"
+           L" [--subset=<Field><OP><string>[/iI] [--fields=f1,f2,..]"
+           L" [<operation-on-matched-entries>]";
 }
