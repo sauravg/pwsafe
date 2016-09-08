@@ -13,7 +13,7 @@ public:
   cli_sync(): cli_task{'z', "synchronize", required_argument}{ fields.set(); }
   static string_vec long_help();
   static wstring short_help() {
-    return L"--sync=<other-safe>  [--subset=<Field><OP><string>[/iI]]";
+    return L"--sync=<other-safe>  [--subset=<Field><OP><string>[/iI]] [--fields=f1,f2,..]";
   }
   virtual int execute(PWScore &core)              override;
   virtual bool handle_arg( const char *name, const char *value) override;
