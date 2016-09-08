@@ -56,4 +56,36 @@ struct SearchActionTraits<UserArgs::ChangePassword>
   static constexpr wchar_t prompt[] = L"Change password of item";
 };
 
+
+struct Print{
+  static constexpr const wchar_t *help= L"--print=field1,field2,...";
+  static constexpr const wchar_t *long_arg= L"print";
+  int Execute(PWScore &core, const ItemPtrVec &matches);
+};
+
+struct Delete{
+  static constexpr const wchar_t *help{ L"--delete" };
+  static constexpr const wchar_t *long_arg= L"delete";
+  int Execute(PWScore &core, const ItemPtrVec &matches);
+};
+
+struct Update{
+  static constexpr const wchar_t *help{ L"--update=field1=value1,field2=value2,..." };
+  static constexpr const wchar_t *long_arg= L"update";
+  int Execute(PWScore &core, const ItemPtrVec &matches);
+};
+
+struct ClearFields{
+  static constexpr const wchar_t *help{ L"--clear=field1,field2,..." };
+  static constexpr const wchar_t *long_arg= L"clear";
+  int Execute(PWScore &core, const ItemPtrVec &matches);
+};
+
+struct ChangePassword{
+  static constexpr const wchar_t *help{ L"--newpass" };
+  static constexpr const wchar_t *long_arg= L"newpass";
+  int Execute(PWScore &core, const ItemPtrVec &matches);
+};
+
+
 #endif /* defined(__pwsafe_xcode6__searchaction__) */
