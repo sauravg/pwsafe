@@ -270,6 +270,20 @@ wstring cli_search::short_help()
            L" [--subset=<Field><OP><string>[/iI] [--fields=f1,f2,..]"
            L" [<operation-on-matched-entries>]";
 }
+
+inline int execute_search_op(const wstring &name, tuple<>)
+{
+  return PWScore::FAILURE;
+}
+
+template <class Op, class... Rest>
+inline int execute_search_op(const wstring &name, tuple<Op, Rest...>)
+{
+  if ( name == Op::long_arg )
+    return Op::execute();
+  return execute_search_op(name, tuple<Rest...>{});
+}
+
 inline bool is_operation_arg(const wstring &/*name*/, tuple<>)
 {
   return false;
@@ -310,4 +324,10 @@ bool cli_search::handle_arg( const char *name, const char *value)
     }
   }
   return false;
+}
+
+//  virtual
+int cli_search::execute(PWScore &core)
+{
+
 }
