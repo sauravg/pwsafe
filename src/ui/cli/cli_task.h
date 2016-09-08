@@ -62,15 +62,3 @@ public:
   // This is called from main(). Should not be overriden
   virtual void parse_args(const char *val, int argc, char *argv[]) throw(std::invalid_argument) final;
 };
-
-
-class cli_search: public cli_task
-{
-public:
-  cli_search();
-  static string_vec long_help();
-  static wstring short_help();
-  virtual bool is_dirty() const                   override;
-  virtual int execute(PWScore &core)              override;
-  virtual bool handle_arg( const char *name, const char *value) override;
-};
