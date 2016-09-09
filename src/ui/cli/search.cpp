@@ -96,7 +96,9 @@ wchar_t Confirm(const wstring &prompt, const wstring &ops,
 }
 
 template <typename action_func_t>
-int SearchAndConfirm(const wstring &prompt, PWScore &core, const UserArgs &ua, action_func_t afn)
+int SearchAndConfirm(const wstring &prompt, PWScore &core, const wstring &text,
+                     bool ignoreCase, const Restriction &subset, const CItemData::FieldBits &fields,
+                     bool confirmed, action_func_t afn)
 {
   ItemPtrVec matches;
   auto matchfn = [&matches](const pws_os::CUUID &/*uuid*/, const CItemData &data) {
@@ -104,41 +106,47 @@ int SearchAndConfirm(const wstring &prompt, PWScore &core, const UserArgs &ua, a
   };
 
   const wchar_t help[] = L"[y]es   - yes for this item\n"
-                          "[n]o    - no for this item\n"
-                          "[a]ll   - yes for this item and all remaining items\n"
-                          "[q]uit  - no for this item all remaining items\n"
-                          "a[b]ort - abort operation, even for previous items\n";
+  "[n]o    - no for this item\n"
+  "[a]ll   - yes for this item and all remaining items\n"
+  "[q]uit  - no for this item all remaining items\n"
+  "a[b]ort - abort operation, even for previous items\n";
 
-  wchar_t choice{ ua.confirmed? L'a': 0 };
+  wchar_t choice{ confirmed? L'a': 0 };
 
-  SearchForEntries(core, ua.opArg, ua.ignoreCase, ua.subset, ua.fields,
-      [matchfn, &choice, help, &prompt](const pws_os::CUUID &uuid,
-                           const CItemData &data,
-                           bool *keep_going) {
+  SearchForEntries(core, text, ignoreCase, subset, fields,
+                   [matchfn, &choice, help, &prompt](const pws_os::CUUID &uuid,
+                                                     const CItemData &data,
+                                                     bool *keep_going) {
 
-    if( choice != L'a' )
-      choice = Confirm(prompt, L"ynaqb", help, data);
+                     if( choice != L'a' )
+                       choice = Confirm(prompt, L"ynaqb", help, data);
 
-    switch(choice) {
-      case L'y': case L'a':
-        matchfn(uuid, data);
-        break;
-      case L'n':
-        break;
-      case L'q': case L'b':
-        *keep_going = false;
-        break;
-      default:
-        assert(false);
-        break;
-    }
+                     switch(choice) {
+                       case L'y': case L'a':
+                         matchfn(uuid, data);
+                         break;
+                       case L'n':
+                         break;
+                       case L'q': case L'b':
+                         *keep_going = false;
+                         break;
+                       default:
+                         assert(false);
+                         break;
+                     }
 
-  });
+                   });
 
   if (choice != L'b')
     return afn(matches);
 
   return PWScore::SUCCESS;
+}
+
+template <typename action_func_t>
+int SearchAndConfirm(const wstring &prompt, PWScore &core, const UserArgs &ua, action_func_t afn)
+{
+  return SearchAndConfirm(prompt, core, ua.opArg, ua.ignoreCase, ua.subset, ua.fields, ua.confirmed, afn);
 }
 
 template <int action, typename action_func_t>
