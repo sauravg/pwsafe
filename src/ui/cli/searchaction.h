@@ -107,7 +107,7 @@ struct ClearFields {
 
 struct ChangePassword {
   static constexpr bool needs_confirmation{true};
-  static constexpr bool Parse(const wstring &args){ return args.empty();}
+  static bool Parse(const wstring &args){ return args.empty();}
   DECLARE_STR(help, "--newpass")
   static constexpr const wchar_t *long_arg= L"newpass";
   static int execute(const wstring &arg, PWScore &core, const ItemPtrVec &matches);
