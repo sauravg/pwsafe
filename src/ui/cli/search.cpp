@@ -210,7 +210,7 @@ int Search(PWScore &core, const UserArgs &ua)
 }
 
 // Any new search operation must be added to this list
-using SearchOperations = std::tuple<Print, Delete, Update, ClearFields, ChangePassword>;
+using SearchActions = std::tuple<Print, Delete, Update, ClearFields, ChangePassword>;
 
 int SearchInternal(PWScore &core, const UserArgs &ua, wostream &os)
 {
