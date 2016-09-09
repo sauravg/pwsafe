@@ -21,7 +21,7 @@ class cli_search: public cli_task
   Restriction subset;
   CItemData::FieldBits fields;
   bool ignore_case{false};
-  wstring search_action;
+  wstring action, actionParam;
 
 public:
   cli_search(): cli_task{'s', "search", required_argument}{ fields.set(); }
@@ -29,6 +29,8 @@ public:
   static wstring short_help();
   virtual int execute(PWScore &core)              override;
   virtual bool handle_arg( const char *name, const char *value) override;
+  template <class Op, class... Rest>
+  friend int execute_search_op(const cli_search &search, PWScore &core, std::tuple<Op, Rest...>);
 };
 
 #endif /* defined(__pwsafe_xcode6__search__) */

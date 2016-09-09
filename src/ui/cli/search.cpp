@@ -261,14 +261,14 @@ template <class Op, class... Rest>
 string_vec make_long_help( tuple<Op, Rest...>)
 {
   string_vec v = make_long_help(tuple<Rest...>{});
-  v.push_back(Op::help);
+  v.push_back(Op::helpw);
   return v;
 }
 
 //  static
 string_vec cli_search::long_help()
 {
-  return make_long_help(SearchOperations{});
+  return make_long_help(SearchActions{});
 }
 
 //  static
@@ -279,34 +279,49 @@ wstring cli_search::short_help()
            L" [<operation-on-matched-entries>]";
 }
 
-inline int execute_search_op(const wstring &name, tuple<>)
+inline int execute_search_op(const cli_search &search, PWScore &core, tuple<>)
 {
   return PWScore::FAILURE;
 }
 
 template <class Op, class... Rest>
-inline int execute_search_op(const wstring &name, tuple<Op, Rest...>)
+int execute_search_op(const cli_search &search, PWScore &core, tuple<Op, Rest...>)
 {
-  if ( name == Op::long_arg )
-    return Op::execute();
-  return execute_search_op(name, tuple<Rest...>{});
+  if ( search.action == Op::long_arg ) {
+    ItemPtrVec vec;
+    if (Op::needs_confirmation && !search.confirmed) {
+      SearchAndConfirm(Op::prompt, core, str2wstr(search.op_param), search.ignore_case, search.subset,
+                       search.fields, false, [&vec](const ItemPtrVec &matches){
+                          vec = matches;
+                          return PWScore::SUCCESS;
+      });
+    }
+    else {
+      SearchForEntries(core, str2wstr(search.op_param), search.ignore_case, search.subset, search.fields,
+                       [&vec](const pws_os::CUUID &/*uuid*/, const CItemData &data, bool */*keep_going*/) {
+                         vec.push_back(&data);
+                       });
+    }
+    if (!vec.empty())
+      return Op::execute(search.actionParam, core, vec);
+    return PWScore::SUCCESS;
+  }
+  return execute_search_op(search, core, tuple<Rest...>{});
 }
 
-inline bool is_operation_arg(const wstring &/*name*/, tuple<>)
+inline bool is_search_action(const wstring &/*name*/, const wstring& /*value*/, tuple<>)
 {
   return false;
 }
 
 template <class Op, class... Rest>
-inline bool is_operation_arg(const wstring &name, tuple<Op, Rest...>)
+inline bool is_search_action(const wstring &name, const wstring &value, tuple<Op, Rest...>)
 {
-  if ( Op::long_arg == name) return true;
-  return is_operation_arg(name, tuple<Rest...>{});
-}
-
-inline bool is_operation_arg(const wstring &name)
-{
-  return is_operation_arg( name, SearchOperations{});
+  if ( Op::long_arg == name) {
+    if (Op::Parse(value)) return true;
+    throw new std::invalid_argument{Op::help};
+  }
+  return is_search_action(name, value, tuple<Rest...>{});
 }
 
 //  virtual
@@ -325,11 +340,7 @@ bool cli_search::handle_arg( const char *name, const char *value)
     return true;
   }
   else {
-    const wstring wname{str2wstr(name)};
-    if (is_operation_arg(wname)) {
-      search_action = wname;
-      return true;
-    }
+    return is_search_action(str2wstr(name), str2wstr(value), SearchActions{});
   }
   return false;
 }
@@ -337,5 +348,5 @@ bool cli_search::handle_arg( const char *name, const char *value)
 //  virtual
 int cli_search::execute(PWScore &core)
 {
-
+  return execute_search_op(*this, core, SearchActions{});
 }
