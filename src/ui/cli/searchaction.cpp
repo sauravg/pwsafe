@@ -138,6 +138,36 @@ int ChangePasswordOfSearchResults(const ItemPtrVec &items, PWScore &core)
   return PWScore::SUCCESS;
 }
 
+//static
+int Print::execute(const wstring &arg, PWScore &core, const ItemPtrVec &matches)
+{
+  return PrintSearchResults(matches, core, ParseFields(arg), wcout);
+}
+
+//static
+int Delete::execute(const wstring &arg, PWScore &core, const ItemPtrVec &matches)
+{
+  return DeleteSearchResults(matches, core);
+}
+
+//static
+int Update::execute(const wstring &arg, PWScore &core, const ItemPtrVec &matches)
+{
+  return UpdateSearchResults(matches, core, ParseFieldValues(arg));
+}
+
+//static
+int ClearFields::execute(const wstring &arg, PWScore &core, const ItemPtrVec &matches)
+{
+  return ClearFieldsOfSearchResults(matches, core, ParseFields(arg));
+}
+
+//static
+int ChangePassword::execute(const wstring &arg, PWScore &core, const ItemPtrVec &matches)
+{
+  return ChangePasswordOfSearchResults(matches, core);
+}
+
 constexpr wchar_t SearchActionTraits<UserArgs::Delete>::prompt[];
 constexpr wchar_t SearchActionTraits<UserArgs::Update>::prompt[];
 constexpr wchar_t SearchActionTraits<UserArgs::ClearFields>::prompt[];
