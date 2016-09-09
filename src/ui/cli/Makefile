@@ -7,7 +7,7 @@ SRC         = main.cpp search.cpp argutils.cpp searchaction.cpp strutils.cpp \
 
 TESTSRC         = add-entry-test.cpp arg-fields-test.cpp split-test.cpp \
 				  safeutils.cpp argutils.cpp searchaction.cpp strutils.cpp \
-				  trim-test.cpp search-test.cpp search.cpp
+				  trim-test.cpp search-test.cpp search.cpp cli_task.cpp
 
 COREPATH        = ../../core
 OSPATH          = ../../os
