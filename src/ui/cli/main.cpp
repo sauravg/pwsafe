@@ -72,28 +72,7 @@ using OperationTypes = std::tuple<cli_import, cli_export, cli_create_safe, cli_a
 
 static void usage(char *pname)
 {
-  wcerr << "Usage: " << pname << " safe --imp[=file] --text|--xml" << endl
-       << "       " << pname << " safe --exp[=file] --text|--xml" << endl
-       << "       " << pname << " safe --new" << endl
-       << "       " << pname << " safe --add=field1=value1,field2=value2,..." << endl
-       << "       " << pname << " safe --search=<text> [--ignore-case]" << endl
-       << "       " << "\t\t\t" << " [--subset=<Field><OP><string>[/iI] [--fields=f1,f2,..]" << endl
-       << "       " << "\t\t\t" << " [--delete|--update=Field1=Value1,Field2=Value2,..|--print] [--yes]" << endl
-       << "       " << pname << " safe --diff=<other-safe>  [--subset=<Field><OP><Value>[/iI] " << endl
-       << "       " << "\t\t\t" << " [--fields=f1,f2,..] [--unified|--context|--sidebyside]" << endl
-       << "       " << "\t\t\t" << " [--colwidth=column-size]" << endl
-       << "       " << pname << " safe --sync=<other-safe>  [--subset=<Field><OP><string>[/iI]]" << endl
-       << "       " << "\t\t\t" << " [--fields=f1,f2,..] [--yes]" << endl
-       << "       " << pname << " safe --merge=<other-safe> [--subset=<Field><OP><Value>[/iI]] [--yes]" << endl
-       << endl
-       << "       " << "where OP is one of ==, !==, ^= !^=, $=, !$=, ~=, !~=" << endl
-       << "       " << " = => exactly similar" << endl
-       << "       " << " ^ => begins-with" << endl
-       << "       " << " $ => ends with" << endl
-       << "       " << " ^ => contains" << endl
-       << "       " << " ! => negation" << endl
-       << "       " << "a trailing /i => case insensitive, /I => case sensitive" << endl
-       ;
+  usage(pname, wcerr, OperationTypes{});
 }
 
 constexpr bool no_dup_short_option2(uint32_t bits, const option *p)
