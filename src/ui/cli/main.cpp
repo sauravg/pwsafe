@@ -12,6 +12,7 @@
 #include <libgen.h>
 #include <string>
 #include <map>
+#include <array>
 
 #include "./search.h"
 #include "./argutils.h"
@@ -84,6 +85,43 @@ constexpr bool no_dup_short_option2(uint32_t bits, const option *p)
 constexpr bool no_dup_short_option(const struct option *p)
 {
   return no_dup_short_option2(uint32_t{}, p);
+}
+
+using OptionsArray = array<option, std::tuple_size<OperationTypes>::value>;
+constexpr auto OptionsArraySize = std::tuple_size<OperationTypes>::value;
+
+ostream& operator<<(ostream& os, const OptionsArray &ops)
+{
+  auto argtype = [](int a) {
+    switch (a) {
+      case no_argument: return "no_argument";
+      case optional_argument: return "optional_argument";
+      case required_argument: return "required_argument";
+      default: return "invalid has_arg";
+    }
+  };
+
+  for( const auto &o: ops ) {
+    os << "{ " << o.name << ", "
+       << argtype(o.has_arg) << ", "
+       << static_cast<char>(o.val) << " }" << endl;
+  }
+  return os;
+}
+
+template <size_t N>
+typename std::enable_if< (N == OptionsArraySize)>::type
+GetOptions(OptionsArray &opts)
+{
+}
+
+template <size_t N>
+typename std::enable_if< (N < OptionsArraySize)>::type
+GetOptions(OptionsArray &opts)
+{
+  using OpType = typename std::tuple_element<N, OperationTypes>::type;
+  opts[N] = OpType{};
+  GetOptions<N+1>(opts);
 }
 
 bool parseArgs(int argc, char *argv[], UserArgs &ua)
