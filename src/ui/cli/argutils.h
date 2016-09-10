@@ -87,7 +87,7 @@ UserArgs::FieldUpdates ParseFieldValues(const std::wstring& updates);
 Restriction ParseSubset(const std::wstring &s);
 
 extern const std::vector<std::wstring> restrictions_help;
-extern const std::vector<std::wstring> fields_help;
+extern std::vector<std::wstring> get_fields_help();
 
 
 #endif /* defined(__pwsafe_xcode6__argutils__) */

@@ -50,6 +50,7 @@ string_vec cli_sync::long_help()
 {
   string_vec v = { short_help() };
   v.insert(v.end(), restrictions_help.begin(), restrictions_help.end());
+  const string_vec fields_help{get_fields_help()};
   v.insert(v.end(), fields_help.begin(), fields_help.end());
   return v;
 }

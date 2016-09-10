@@ -155,4 +155,8 @@ vector<wstring> InitFieldNames()
   return fieldNames;
 }
 
-const std::vector<std::wstring> fields_help{InitFieldNames()};
+std::vector<std::wstring> get_fields_help()
+{
+  static const std::vector<std::wstring> fields_help{InitFieldNames()};
+  return fields_help;
+}

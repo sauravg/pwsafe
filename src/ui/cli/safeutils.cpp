@@ -232,6 +232,7 @@ int cli_create_safe::execute(PWScore &core)
 string_vec cli_add_entry::long_help()
 {
   string_vec help{ short_help() };
+  const string_vec fields_help{get_fields_help()};
   help.insert(help.end(), fields_help.begin(), fields_help.end());
   return help;
 }
