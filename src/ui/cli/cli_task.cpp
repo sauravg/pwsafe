@@ -8,7 +8,7 @@ void cli_task::parse_args(const char *val, int argc, char *argv[]) throw(std::in
   struct option long_options[] = {
     {"yes",         no_argument,        0, 'y'},
     {"dry-run",     no_argument,        0, 'n'},
-    {str_op.c_str(), atype,             0, ch_op}
+    {str_op,        atype,              0, ch_op}
   };
   string opstr{"yn"};
   opstr += ch_op;

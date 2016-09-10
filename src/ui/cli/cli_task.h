@@ -18,11 +18,11 @@ class cli_task
 {
   // These need to be passed in via ctor
   const char ch_op;
-  const std::string str_op;  // An appropriate instance (subclass) is searched for by this field
+  const char *str_op;  // An appropriate instance (subclass) is searched for by this field
   const int atype;
 
 public:
-  cli_task(char s, const std::string &l, int t):
+  cli_task(char s, const char *l, int t):
         ch_op{s}, str_op{l}, atype{t}  {}
   virtual ~cli_task()  {}
 
@@ -40,7 +40,7 @@ protected:
 
 public:
   // This can be used to construct an array of 'option's 
-  operator option () const { return {str_op.c_str(), atype, 0, ch_op}; }
+  operator option () const { return {str_op, atype, 0, ch_op}; }
 
   // This can be used to print the help just for this operation, or
   // the usage of the entire app
