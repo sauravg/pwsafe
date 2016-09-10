@@ -38,7 +38,7 @@ else
 	GTEST_HEADERS=/usr/include/gtest/*.h /usr/include/gtest/internal/*.h
 	GTEST_SRCS=$(GTEST_DIR)/src/*.cc $(GTEST_DIR)/src/*.h $(GTEST_HEADERS)
 	GTEST_OBJ = $(OBJPATH)/gtest-all.o
-	EXTLIBS=-luuid -lxerces-c -lpthread $(GTEST_OBJ)
+	EXTLIBS=-luuid -lxerces-c -lpthread
 endif
 
 CXXFLAGS += $(CPPFLAGS) -Wall -I$(COREPATH) -I../.. $(XERCESCPPFLAGS) -DUNICODE
@@ -52,8 +52,7 @@ $(OBJPATH)/%.o : %.c
 $(OBJPATH)/%.o : %.cpp
 	$(CXX) -g $(CXXFLAGS) -c $< -o $@
 
-all : setup $(EXE) $(TESTEXE)
-
+all : setup $(EXE)
 
 $(LIBCORE): 
 	$(MAKE) -C $(COREPATH)
@@ -74,12 +73,12 @@ deepclean: clean
 setup:
 	@mkdir -p $(OBJPATH) $(BINPATH)
 
-test: $(GTEST_OBJ) $(TESTEXE)
+test: $(TESTEXE)
 
 $(GTEST_OBJ): $(GTEST_SRCS_) $(GTEST_HEADERS)
 	$(CXX) -g $(CPPFLAGS) -I$(GTEST_DIR) $(CXXFLAGS) -c -o $@ \
 	$(GTEST_DIR)/src/gtest-all.cc
 
-$(TESTEXE): $(LIBS) $(TESTOBJ)
+$(TESTEXE): $(LIBS) $(TESTOBJ) $(GTEST_OBJ)
 	$(CXX) -v -g $(CXXFLAGS) $(filter %.o,$^)  -o $@  $(LD_FLAGS) \
 	-L$(LIBPATH) -lcore -los -lcore $(EXTLIBS)
