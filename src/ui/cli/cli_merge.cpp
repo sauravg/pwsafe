@@ -46,7 +46,7 @@ string_vec cli_merge::long_help()
 }
 
 // override
-int cli_merge::execute(PWScore &core)
+int cli_merge::execute(PWScore &core, const string &op_param)
 {
   int status = Merge(core, str2StringX(op_param), subset);
   if ( status == PWScore::SUCCESS )

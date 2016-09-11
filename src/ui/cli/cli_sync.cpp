@@ -56,7 +56,7 @@ string_vec cli_sync::long_help()
 }
 
 //  virtual
-int cli_sync::execute(PWScore &core)
+int cli_sync::execute(PWScore &core, const string &op_param)
 {
   int numUpdated = 0;
   int status = Sync(core, str2StringX(op_param), subset, fields, numUpdated);

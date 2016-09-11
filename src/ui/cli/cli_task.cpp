@@ -2,9 +2,8 @@
 
 #include <getopt.h>
 
-void cli_task::parse_args(const char *val, int argc, char *argv[]) throw(std::invalid_argument)
+void cli_task::parse_args(int argc, char *argv[]) throw(std::invalid_argument)
 {
-  if (val) op_param = val;
   struct option long_options[] = {
     {"yes",         no_argument,        0, 'y'},
     {"dry-run",     no_argument,        0, 'n'},

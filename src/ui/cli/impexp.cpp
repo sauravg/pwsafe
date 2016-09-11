@@ -238,7 +238,7 @@ bool cli_impexp::handle_arg( const char *name, const char *val) /*override*/
     return false;
 }
 
-int cli_import::execute(PWScore &core)
+int cli_import::execute(PWScore &core, const string &op_param)
 {
   if (format == FileType::text)
     return ImportText(core, op_param.empty()? L"file.txt": str2wstr(op_param));
@@ -246,7 +246,7 @@ int cli_import::execute(PWScore &core)
     return ImportXML(core, op_param.empty()? L"file.xml": str2wstr(op_param));
 }
 
-int cli_export::execute(PWScore &core)
+int cli_export::execute(PWScore &core, const string &op_param)
 {
   CItemData::FieldBits all;
   all.set();

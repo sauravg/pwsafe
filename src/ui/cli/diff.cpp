@@ -448,7 +448,7 @@ string_vec cli_diff::long_help()
   return help;
 }
 
-int cli_diff::execute(PWScore &core)
+int cli_diff::execute(PWScore &core, const string &op_param)
 {
   return Diff(core, str2StringX(op_param), subset, fields, fmt, colwidth );
 }

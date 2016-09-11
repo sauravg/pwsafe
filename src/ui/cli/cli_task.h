@@ -38,9 +38,6 @@ protected:
   bool dry_run{false};
   bool confirmed{false};
 
-  // This is the value (optval) passed to the main cmdline flag
-  string op_param;
-
 public:
   // This can be used to construct an array of 'option's 
   operator option () const { return {str_op, atype, 0, ch_op}; }
@@ -60,10 +57,10 @@ public:
   }
 
   // Do the thing here. Return PWScore::SUCCESS etc.
-  virtual int execute(PWScore &core)            = 0;
+  virtual int execute(PWScore &core, const string &op_param)            = 0;
 
   // This is called from main(). Should not be overriden
-  virtual void parse_args(const char *val, int argc, char *argv[]) throw(std::invalid_argument) final;
+  virtual void parse_args(int argc, char *argv[]) throw(std::invalid_argument) final;
 
   template <class TaskType>
   friend int save_core(PWScore &core, const TaskType &t);

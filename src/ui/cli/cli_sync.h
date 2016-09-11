@@ -15,7 +15,7 @@ public:
   static wstring short_help() {
     return L"--sync=<other-safe>  [--subset=<Field><OP><string>[/iI]] [--fields=f1,f2,..]";
   }
-  virtual int execute(PWScore &core)              override;
+  virtual int execute(PWScore &core, const string &op_param)              override;
   virtual bool handle_arg( const char *name, const char *value) override;
 };
 

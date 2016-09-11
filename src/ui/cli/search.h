@@ -27,10 +27,10 @@ public:
   cli_search(): cli_task{'s', "search", required_argument}{ fields.set(); }
   static string_vec long_help();
   static wstring short_help();
-  virtual int execute(PWScore &core)              override;
+  virtual int execute(PWScore &core, const string &op_param)              override;
   virtual bool handle_arg( const char *name, const char *value) override;
   template <class Op, class... Rest>
-  friend int execute_search_op(const cli_search &search, PWScore &core, std::tuple<Op, Rest...>);
+  friend int execute_search_op(const cli_search &search, const string &text, PWScore &core, std::tuple<Op, Rest...>);
   friend int save_core<cli_search>(PWScore &core, const cli_search &s);
 };
 

@@ -26,7 +26,7 @@ public:
   static wstring short_help() {
     return L"--import[=<file>] | -i [<file>] [ --text | --xml ]";
   }
-  virtual int execute(PWScore &core);
+  virtual int execute(PWScore &core, const string &op_param);
 };
 
 class cli_export: public cli_impexp
@@ -38,7 +38,7 @@ public:
     return L"--export[=<file>] | -e [<file>] [ --text | --xml ]";
   }
   virtual bool is_dirty() const                   override { return false; }
-  virtual int execute(PWScore &core)              override;
+  virtual int execute(PWScore &core, const string &op_param)              override;
 };
 
 template <>

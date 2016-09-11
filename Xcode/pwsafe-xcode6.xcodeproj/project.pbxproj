@@ -113,6 +113,8 @@
 		E6C1255511E1B2BA00D22D92 /* utf8conv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E6C1254511E1B2BA00D22D92 /* utf8conv.cpp */; };
 		E6C1255B11E1B35600D22D92 /* macsendstring.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E6C1255911E1B35600D22D92 /* macsendstring.cpp */; };
 		E6C6876E137C406300A916C1 /* UUID.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E6C6876D137C406300A916C1 /* UUID.cpp */; };
+		E6CBF4151D85CFBC0035B805 /* cli_create_safe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E6CBF4141D85CFBC0035B805 /* cli_create_safe.cpp */; };
+		E6CBF4171D85D0630035B805 /* cli_add_entry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E6CBF4161D85D0630035B805 /* cli_add_entry.cpp */; };
 		E6D17CEE1411156D003BDBE7 /* fieldselectiondlg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E6D17CEB1411156D003BDBE7 /* fieldselectiondlg.cpp */; };
 		E6DA586511A701AE00D84199 /* guiinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E6DA586311A701AE00D84199 /* guiinfo.cpp */; };
 		E6DDC6FC138911CB00F0C0D1 /* CompareDlg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E6DDC6F9138911CB00F0C0D1 /* CompareDlg.cpp */; };
@@ -617,6 +619,10 @@
 		E6C1255A11E1B35600D22D92 /* macsendstring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macsendstring.h; sourceTree = "<group>"; };
 		E6C6876C137C3EFA00A916C1 /* UUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UUID.h; sourceTree = "<group>"; };
 		E6C6876D137C406300A916C1 /* UUID.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UUID.cpp; sourceTree = "<group>"; };
+		E6CBF4121D85CED00035B805 /* cli_create_safe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cli_create_safe.h; sourceTree = "<group>"; };
+		E6CBF4131D85CEF30035B805 /* cli_add_entry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cli_add_entry.h; sourceTree = "<group>"; };
+		E6CBF4141D85CFBC0035B805 /* cli_create_safe.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cli_create_safe.cpp; sourceTree = "<group>"; };
+		E6CBF4161D85D0630035B805 /* cli_add_entry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cli_add_entry.cpp; sourceTree = "<group>"; };
 		E6CFEE4311EA0AFB001402D8 /* RecentDBList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecentDBList.h; sourceTree = "<group>"; };
 		E6D17CEA1411156D003BDBE7 /* fieldselectiondlg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fieldselectiondlg.h; sourceTree = "<group>"; };
 		E6D17CEB1411156D003BDBE7 /* fieldselectiondlg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fieldselectiondlg.cpp; sourceTree = "<group>"; };
@@ -807,6 +813,10 @@
 				E6EBC8161D17165300AF61CD /* searchaction.h */,
 				E6EBC8181D17184F00AF61CD /* strutils.cpp */,
 				E6EBC8191D17184F00AF61CD /* strutils.h */,
+				E6CBF4121D85CED00035B805 /* cli_create_safe.h */,
+				E6CBF4131D85CEF30035B805 /* cli_add_entry.h */,
+				E6CBF4141D85CFBC0035B805 /* cli_create_safe.cpp */,
+				E6CBF4161D85D0630035B805 /* cli_add_entry.cpp */,
 			);
 			name = "pwsafe-cli";
 			path = ../src/ui/cli;
@@ -1661,6 +1671,7 @@
 				E6EBC81A1D17184F00AF61CD /* strutils.cpp in Sources */,
 				E6299FB71D0323A300D03FD1 /* main.cpp in Sources */,
 				E6B908E21D30C8980050CFF1 /* diff.cpp in Sources */,
+				E6CBF4171D85D0630035B805 /* cli_add_entry.cpp in Sources */,
 				E6EBC8171D17165300AF61CD /* searchaction.cpp in Sources */,
 				E6EBC8141D16F9B600AF61CD /* argutils.cpp in Sources */,
 				E61F984E1D7C4C31008CCCDD /* cli_sync.cpp in Sources */,
@@ -1668,6 +1679,7 @@
 				E6B908E31D30C8980050CFF1 /* safeutils.cpp in Sources */,
 				E6EBC8111D16F47F00AF61CD /* search.cpp in Sources */,
 				E61F984F1D7C4C31008CCCDD /* cli_task.cpp in Sources */,
+				E6CBF4151D85CFBC0035B805 /* cli_create_safe.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

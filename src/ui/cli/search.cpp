@@ -279,25 +279,25 @@ wstring cli_search::short_help()
            L" [<operation-on-matched-entries>]";
 }
 
-inline int execute_search_op(const cli_search &search, PWScore &core, tuple<>)
+inline int execute_search_op(const cli_search &search, const string &text, PWScore &core, tuple<>)
 {
   return PWScore::FAILURE;
 }
 
 template <class Op, class... Rest>
-int execute_search_op(const cli_search &search, PWScore &core, tuple<Op, Rest...>)
+int execute_search_op(const cli_search &search, const string &text, PWScore &core, tuple<Op, Rest...>)
 {
   if ( search.action == Op::long_arg ) {
     ItemPtrVec vec;
     if (Op::needs_confirmation && !search.confirmed) {
-      SearchAndConfirm(Op::prompt, core, str2wstr(search.op_param), search.ignore_case, search.subset,
+      SearchAndConfirm(Op::prompt, core, str2wstr(text), search.ignore_case, search.subset,
                        search.fields, false, [&vec](const ItemPtrVec &matches){
                           vec = matches;
                           return PWScore::SUCCESS;
       });
     }
     else {
-      SearchForEntries(core, str2wstr(search.op_param), search.ignore_case, search.subset, search.fields,
+      SearchForEntries(core, str2wstr(text), search.ignore_case, search.subset, search.fields,
                        [&vec](const pws_os::CUUID &/*uuid*/, const CItemData &data, bool */*keep_going*/) {
                          vec.push_back(&data);
                        });
@@ -306,7 +306,7 @@ int execute_search_op(const cli_search &search, PWScore &core, tuple<Op, Rest...
       return Op::execute(search.actionParam, core, vec);
     return PWScore::SUCCESS;
   }
-  return execute_search_op(search, core, tuple<Rest...>{});
+  return execute_search_op(search, text, core, tuple<Rest...>{});
 }
 
 inline bool is_search_action(const wstring &/*name*/, const wstring& /*value*/, tuple<>)
@@ -346,9 +346,10 @@ bool cli_search::handle_arg( const char *name, const char *value)
 }
 
 //  virtual
-int cli_search::execute(PWScore &core)
+int cli_search::execute(PWScore &core, const string &op_param)
 {
-  return execute_search_op(*this, core, SearchActions{});
+  return execute_search_op(*this, op_param, core, SearchActions{});
+}
 
 inline int save_core(PWScore &core, const wstring &action, bool dry_run, tuple<>)
 {
