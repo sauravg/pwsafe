@@ -24,6 +24,8 @@
 #include "./cli_task.h"
 #include "./cli_sync.h"
 #include "./cli_merge.h"
+#include "./cli_create_safe.h"
+#include "./cli_add_entry.h"
 
 #include "../../core/PWScore.h"
 #include "os/file.h"
