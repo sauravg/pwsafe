@@ -87,7 +87,8 @@ constexpr bool no_dup_short_option(const struct option *p)
   return no_dup_short_option2(uint32_t{}, p);
 }
 
-using OptionsArray = array<option, std::tuple_size<OperationTypes>::value>;
+// +1 to fill the last element with zeroes
+using OptionsArray = array<option, std::tuple_size<OperationTypes>::value + 1>;
 constexpr auto OptionsArraySize = std::tuple_size<OperationTypes>::value;
 
 ostream& operator<<(ostream& os, const OptionsArray &ops)
@@ -102,9 +103,9 @@ ostream& operator<<(ostream& os, const OptionsArray &ops)
   };
 
   for( const auto &o: ops ) {
-    os << "{ " << o.name << ", "
+    os << "{ " << (o.name? o.name : "NULL") << ", "
        << argtype(o.has_arg) << ", "
-       << static_cast<char>(o.val) << " }" << endl;
+       << static_cast<char>(o.val? o.val: '0') << " }" << endl;
   }
   return os;
 }
@@ -113,6 +114,7 @@ template <size_t N>
 typename std::enable_if< (N == OptionsArraySize)>::type
 GetOptions(OptionsArray &opts)
 {
+  opts[N] = {0};
 }
 
 template <size_t N>
