@@ -112,18 +112,34 @@ ostream& operator<<(ostream& os, const OptionsArray &ops)
 
 template <size_t N>
 typename std::enable_if< (N == OptionsArraySize)>::type
-GetOptions(OptionsArray &opts)
+GetOptions(OptionsArray &opts, char *p)
 {
   opts[N] = {0};
+  *p = 0;
 }
 
 template <size_t N>
 typename std::enable_if< (N < OptionsArraySize)>::type
-GetOptions(OptionsArray &opts)
+GetOptions(OptionsArray &opts, char *p)
 {
   using OpType = typename std::tuple_element<N, OperationTypes>::type;
   opts[N] = OpType{};
-  GetOptions<N+1>(opts);
+  *p++ = opts[N].val;
+  switch( opts[N].has_arg ) {
+    case no_argument:
+      break;
+    case required_argument:
+      *p++ = ':';
+      break;
+    case optional_argument:
+      *p++ = ':';
+      *p++ = ':';
+      break;
+    default:
+      assert(false);
+      throw std::logic_error("incorrectly initialized option array");
+  }
+  GetOptions<N+1>(opts, p);
 }
 
 bool parseArgs(int argc, char *argv[], UserArgs &ua)
