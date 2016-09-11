@@ -208,14 +208,16 @@ int CreateNewSafe(PWScore &core, const StringX& filename)
     return PWScore::SUCCESS;
 }
 
-int SaveCore(PWScore &core, const UserArgs &ua)
+int SaveCore(PWScore &core, bool dry_run)
 {
-  if (!ua.dry_run)
+  if (!dry_run)
     return core.WriteCurFile();
 
   return PWScore::SUCCESS;
 }
 
+int SaveCore(PWScore &core, const UserArgs &ua)
 {
+  return SaveCore(core, ua.dry_run);
 }
 

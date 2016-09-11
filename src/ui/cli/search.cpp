@@ -349,4 +349,24 @@ bool cli_search::handle_arg( const char *name, const char *value)
 int cli_search::execute(PWScore &core)
 {
   return execute_search_op(*this, core, SearchActions{});
+
+inline int save_core(PWScore &core, const wstring &action, bool dry_run, tuple<>)
+{
+  throw std::logic_error(string("no save implemented for action: ") + toutf8(action));
+}
+
+template <class Op, class... Rest>
+inline int save_core(PWScore &core, const wstring &action, bool dry_run, tuple<Op, Rest...>)
+{
+  if ( Op::long_arg == action) {
+    return save_core<Op>(core, dry_run);
+  }
+  return save_core(core, action, dry_run, tuple<Rest...>{});
+}
+
+
+template <>
+int save_core<cli_search>(PWScore &core, const cli_search &s)
+{
+  return save_core(core, s.action, s.dry_run, SearchActions{});
 }

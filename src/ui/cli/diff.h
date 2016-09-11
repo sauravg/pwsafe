@@ -26,3 +26,8 @@ public:
   virtual bool handle_arg( const char *name, const char *value) override;
 };
 
+template <>
+inline int save_core<cli_diff>(PWScore &core, const cli_diff &) {
+  return PWScore::SUCCESS;
+}
+

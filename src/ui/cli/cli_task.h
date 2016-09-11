@@ -5,6 +5,9 @@
 #include <vector>
 #include <getopt.h>
 
+#include "../../core/StringX.h"
+#include "./safeutils.h"
+
 using std::vector;
 using std::string;
 using std::wstring;
@@ -61,4 +64,20 @@ public:
 
   // This is called from main(). Should not be overriden
   virtual void parse_args(const char *val, int argc, char *argv[]) throw(std::invalid_argument) final;
+
+  template <class TaskType>
+  friend int save_core(PWScore &core, const TaskType &t);
 };
+
+template <class TaskType>
+int open_core(PWScore &core, const StringX &safe)
+{
+  return OpenCore(core, safe);
+}
+
+template <class TaskType>
+int save_core(PWScore &core, const TaskType &t)
+{
+  const cli_task& base = t;
+  return SaveCore(core, base.dry_run);
+}

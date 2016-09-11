@@ -13,6 +13,7 @@
 
 #include "../../core/PWScore.h"
 #include "./argutils.h"
+#include "./safeutils.h"
 
 using std::wstring;
 
@@ -114,5 +115,9 @@ struct ChangePassword {
   static constexpr const wchar_t *prompt = L"Change password of item";
 };
 
+template <class SearchAction>
+inline int save_core(PWScore &core, bool dry_run) {
+  return SaveCore(core, dry_run);
+}
 
 #endif /* defined(__pwsafe_xcode6__searchaction__) */

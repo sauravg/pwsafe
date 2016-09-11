@@ -40,3 +40,8 @@ public:
   virtual bool is_dirty() const                   override { return false; }
   virtual int execute(PWScore &core)              override;
 };
+
+template <>
+inline int save_core<cli_export>(PWScore &, const cli_export &) {
+  return PWScore::SUCCESS;
+}

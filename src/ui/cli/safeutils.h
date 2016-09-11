@@ -8,6 +8,7 @@ struct PWPolicy;
 
 int OpenCore(PWScore& core, const StringX& safe);
 int SaveCore(PWScore &core, const UserArgs &);
+int SaveCore(PWScore &core, bool dry_run);
 
 StringX GetNewPassphrase();
 

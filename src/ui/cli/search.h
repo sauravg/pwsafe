@@ -31,6 +31,11 @@ public:
   virtual bool handle_arg( const char *name, const char *value) override;
   template <class Op, class... Rest>
   friend int execute_search_op(const cli_search &search, PWScore &core, std::tuple<Op, Rest...>);
+  friend int save_core<cli_search>(PWScore &core, const cli_search &s);
 };
+
+template <>
+int save_core<cli_search>(PWScore &core, const cli_search &s);
+
 
 #endif /* defined(__pwsafe_xcode6__search__) */

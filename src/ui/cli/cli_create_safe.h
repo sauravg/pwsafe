@@ -23,4 +23,10 @@ public:
   friend int open_core<cli_create_safe>(PWScore &core, const StringX &safe);
 };
 
+template <>
+inline int open_core<cli_create_safe>(PWScore &core, const StringX &safe) {
+  core.SetCurFile(safe);
+  return PWScore::SUCCESS;
+}
+
 #endif
