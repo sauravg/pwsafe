@@ -24,6 +24,7 @@ void cli_task::parse_args(int argc, char *argv[]) throw(std::invalid_argument)
   switch( c ) {
     case 'n': dry_run = true; break;
     case 'y': confirmed = true; break;
+    case -1: break;
     default:
       if ( !handle_arg(long_options[option_index].name, optarg) )
         throw std::invalid_argument(argv[optind - 1]);
