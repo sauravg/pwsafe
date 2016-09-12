@@ -140,7 +140,7 @@ int execute_cli_op(const StringX &safe, const char *opname, const char *oparg, i
 #pragma message("Handle new safe creation for --new")
       int status = open_core<Oper>(core, safe);
       if ( status == PWScore::SUCCESS) {
-        status = op.execute(core, oparg);
+        status = op.execute(core, oparg? oparg: "");
         if (status == PWScore::SUCCESS)
           status = save_core<Oper>(core, op);
       }
