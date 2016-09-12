@@ -353,6 +353,7 @@ bool cli_search::handle_arg( const char *name, const char *value)
 //  virtual
 int cli_search::execute(PWScore &core, const string &op_param)
 {
+  if (action.empty()) action = L"print";
   return execute_search_op(*this, op_param, core, SearchActions{});
 }
 
