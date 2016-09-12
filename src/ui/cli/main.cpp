@@ -141,7 +141,7 @@ int execute_cli_op(const StringX &safe, const char *opname, const char *oparg, i
       int status = open_core<Oper>(core, safe);
       if ( status == PWScore::SUCCESS) {
         status = op.execute(core, oparg);
-        if (status == PWScore::SUCCESS && core.IsChanged())
+        if (status == PWScore::SUCCESS)
           status = save_core<Oper>(core, op);
       }
     }

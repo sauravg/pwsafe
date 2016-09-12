@@ -76,5 +76,6 @@ template <class TaskType>
 int save_core(PWScore &core, const TaskType &t)
 {
   const cli_task& base = t;
-  return SaveCore(core, base.dry_run);
+  return !t.dry_run && core.IsChanged()? SaveCore(core, base.dry_run):
+              PWScore::SUCCESS;
 }
