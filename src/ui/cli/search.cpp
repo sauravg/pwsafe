@@ -340,7 +340,12 @@ bool cli_search::handle_arg( const char *name, const char *value)
     return true;
   }
   else {
-    return is_search_action(str2wstr(name), str2wstr(value), SearchActions{});
+    const wstring wname{str2wstr(name)}, wvalue{str2wstr(value)};
+    if (is_search_action(wname, wvalue, SearchActions{})) {
+      action = wname;
+      actionParam = wvalue;
+      return true;
+    }
   }
   return false;
 }
