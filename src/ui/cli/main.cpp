@@ -172,11 +172,27 @@ int main(int argc, char *argv[])
     return -1;
   }
 
+  const StringX safe{str2StringX(argv[1])};
 
   int option_index = 0;
-  int c = getopt_long(argc-1, argv+1, optstring, opts.cbegin(), &option_index);
-  if (c != ':' && c != '?') {
-    return execute_cli_op(str2StringX(argv[1]), opts[option_index].name, optarg, argc-2, argv+2, OperationTypes{});
+
+  int c = getopt_long(argc, argv, optstring, opts.cbegin(), &option_index);
+  switch (c) {
+    case -1:
+      // even if the arg is invalid, we should get '?'
+      assert(false);
+      return PWScore::FAILURE;
+    case ':':
+    case '?':
+      usage(basename(argv[0]));
+      return PWScore::FAILURE;
+    default:
+      try {
+        return execute_cli_op(safe, opts[option_index].name, optarg, argc-3, argv+3, OperationTypes{});
+      }
+      catch( const std::exception &e ) {
+        wcerr << L"Error: " << str2wstr(e.what()) << endl;
+        return PWScore::FAILURE;
+      }
   }
-  return -1;
 }
