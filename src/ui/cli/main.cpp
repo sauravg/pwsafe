@@ -166,8 +166,12 @@ int main(int argc, char *argv[])
   GetOptions<0>(opts, optstring);
 
 
-  if (argc < 3) // must give us a safe and an operation
+  if (argc < 3) {
+    // must give us a safe and an operation
+    usage(basename(argv[0]));
     return -1;
+  }
+
 
   int option_index = 0;
   int c = getopt_long(argc-1, argv+1, optstring, opts.cbegin(), &option_index);
