@@ -324,6 +324,20 @@ inline bool is_search_action(const wstring &name, const wstring &value, tuple<Op
   return is_search_action(name, value, tuple<Rest...>{});
 }
 
+vector<option> cli_search::task_options() const
+{
+    return {
+        {"subset",      required_argument,  0, 'b'},
+        {"fields",      required_argument,  0, 'f'},
+        {"ignore-case", no_argument,        0, 'i'},
+        Print::long_opt,
+        Delete::long_opt,
+        Update::long_opt,
+        ChangePassword::long_opt,
+        ClearFields::long_opt
+    };
+}
+
 //  virtual
 bool cli_search::handle_arg( const char *name, const char *value)
 {

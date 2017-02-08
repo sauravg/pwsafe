@@ -32,6 +32,7 @@ public:
   template <class Op, class... Rest>
   friend int execute_search_op(const cli_search &search, const string &text, PWScore &core, std::tuple<Op, Rest...>);
   friend int save_core<cli_search>(PWScore &core, const cli_search &s);
+  virtual vector<option> task_options() const override;
 };
 
 template <>

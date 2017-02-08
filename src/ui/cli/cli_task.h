@@ -42,6 +42,8 @@ public:
   // This can be used to construct an array of 'option's 
   operator option () const { return {str_op, atype, 0, ch_op}; }
 
+  virtual vector<option> task_options() const { return {{0, 0, 0, 0}}; }
+
   // This can be used to print the help just for this operation, or
   // the usage of the entire app
   //static string_vec long_help();
