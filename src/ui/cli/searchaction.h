@@ -103,7 +103,7 @@ struct ClearFields {
   DECLARE_STR(help, "--clear=field1,field2,...")
   static constexpr const wchar_t *long_arg= L"clear";
   static int execute(const wstring &arg, PWScore &core, const ItemPtrVec &matches);
-  static constexpr const wchar_t *prompt = L"Clear files of item";
+  static constexpr const wchar_t *prompt = L"Clear fields of item";
 };
 
 struct ChangePassword {
