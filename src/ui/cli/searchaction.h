@@ -9,6 +9,8 @@
 #ifndef __pwsafe_xcode6__searchaction__
 #define __pwsafe_xcode6__searchaction__
 
+#include <getopt.h>
+
 #include <vector>
 
 #include "../../core/PWScore.h"
@@ -66,18 +68,20 @@ struct Print {
   static constexpr bool needs_confirmation{false};
   static bool Parse(const wstring &arg){return arg.empty();}
   DECLARE_STR(help, "--print=field1,field2,...")
-  static constexpr const wchar_t *long_arg= L"print";
+  DECLARE_STR(long_arg, "print")
   static int execute(const wstring &arg, PWScore &core, const ItemPtrVec &matches);
   static constexpr const wchar_t *prompt = L"Should never be used";
+  static constexpr const option long_opt = {long_arg, no_argument, 0, 'p'};
 };
 
 struct Delete {
   static constexpr bool needs_confirmation{true};
   static bool Parse(const wstring &arg){return arg.empty();}
   DECLARE_STR(help, "--delete")
-  static constexpr const wchar_t *long_arg= L"delete";
+  DECLARE_STR(long_arg, "delete")
   static int execute(const wstring &arg, PWScore &core, const ItemPtrVec &matches);
   static constexpr const wchar_t *prompt = L"Delete Item";
+  static constexpr const option long_opt = {long_arg, no_argument, 0, 'd'};
 };
 
 struct Update {
@@ -88,9 +92,10 @@ struct Update {
     return true;
   }
   DECLARE_STR(help, "--update=field1=value1,field2=value2,...")
-  static constexpr const wchar_t *long_arg= L"update";
+  DECLARE_STR(long_arg, "update")
   static int execute(const wstring &arg, PWScore &core, const ItemPtrVec &matches);
   static constexpr const wchar_t *prompt = L"Update Item";
+  static constexpr const option long_opt = {long_arg, required_argument, 0, 'u'};
 };
 
 struct ClearFields {
@@ -101,18 +106,20 @@ struct ClearFields {
     return true;
   }
   DECLARE_STR(help, "--clear=field1,field2,...")
-  static constexpr const wchar_t *long_arg= L"clear";
+  DECLARE_STR(long_arg, "clear")
   static int execute(const wstring &arg, PWScore &core, const ItemPtrVec &matches);
   static constexpr const wchar_t *prompt = L"Clear fields of item";
+  static constexpr const option long_opt = {long_arg, no_argument, 0, 'x'};
 };
 
 struct ChangePassword {
   static constexpr bool needs_confirmation{true};
   static bool Parse(const wstring &args){ return args.empty();}
   DECLARE_STR(help, "--newpass")
-  static constexpr const wchar_t *long_arg= L"newpass";
+  DECLARE_STR(long_arg, "newpass")
   static int execute(const wstring &arg, PWScore &core, const ItemPtrVec &matches);
   static constexpr const wchar_t *prompt = L"Change password of item";
+  static constexpr const option long_opt = {long_arg, no_argument, 0, 'c'};
 };
 
 template <class SearchAction>
