@@ -1,0 +1,122 @@
+.\" manpae for pwsafe-cli, the command-line interface to pwsafe
+.\" See https://pwsafe.org
+.
+.de URL
+\\$2 \(laURL: \\$1 \(ra\\$3
+..
+.if \n[.g] .mso www.tmac
+.TH pwsafe\-cli 1 2017-06-29 "pwsafe-cli 1.0"
+.SH NAME
+pwsafe-cli \- The command-line interface to Password Safe (pwsafe.org)
+.
+.SH SYNOPSIS
+.B pwsafe\-cli
+.I pwsafe\-db
+.I command
+[
+.IR command\-options " ..."
+]
+.PP
+Commands are
+.PP
+.RS
+.B \-\-new
+.br
+Create a new safe named
+.I pwsafe-db
+\&. The
+.I pwsafe\-db
+file must not already exist.
+.PP
+.B \-\-imp
+[
+.I another-db
+]
+.RB [ --text | --xml ]
+.br
+Import another pwsafe db in text/xml format into
+.I pwsafe-db
+.PP
+.B \-\-exp
+[
+.I another-db
+]
+.RB [ --text | --xml ]
+.br
+Export
+.I pwsafe-db
+to text/xml.
+.PP
+.B \-\-add
+.IR field1 = value1 [, field2 = value2 , field3 = value3 ...
+]
+.br
+Add an entry to
+.I pwsafe-db
+with the field values as specified.
+.PP
+.B \-\-search
+.I <text>
+[
+.I search-options
+]
+[
+.I search-action
+]
+[
+.I search-action-options
+]
+.br
+Search for and perform an operation on all the matching entries.
+.PP
+.B \-\-diff
+.I <another-safe>
+[
+.I matching-options
+]
+[
+.I diff-options
+]
+.br
+Compare two pwsafe databases
+.PP
+.B \-\-sync
+.I <another-safe>
+[
+.I matching-options
+]
+[
+.I sync-options
+]
+[
+.I \-\-yes
+]
+.br
+Sync
+.I some
+fields from matching entries in another db.
+.PP
+.B \-\-merge
+[
+.I another-safe
+]
+[
+.I matching-options
+]
+[
+.I --yes
+]
+.br
+Merge
+.B all
+fields from matching entries in another db.
+.RE
+.SH DESCRIPTION
+pwsafe-cli is the command-line version of the popular Password Safe program.
+Currently, it supports only some of the operations supported by the GUI.
+
+.PP
+.SH AUTHOR
+Copyright \(co 2017 \fIPassword Safe\fP
+.br
+.URL "https://pwsafe.org" "pwsafe" "*"
