@@ -27,6 +27,16 @@ Commands are what one would like to do with the
 .I pwsafe-db
 argument, followed by options for that command.
 .PP
+Most of the functionality to use/change existring entries is provided by the
+.B --search
+command. Unlike a GUI where one can visually identify
+the desired entry, in a command-line based interface an entry can only be
+specified by matching properties like Group, Title, User, etc.
+That is, it has to be searched for and matched uniquely.
+Therefore, operations that can be performed on existing entries
+are provided as \fIsearch-action\fR.
+
+.PP
 .B \-\-new
 .RS 4
 Create a new safe named
