@@ -28,39 +28,45 @@ Commands are what one would like to do with the
 argument, followed by options for that command.
 .PP
 .B \-\-new
-.br
+.RS 4
 Create a new safe named
 .I pwsafe-db
 \&. The
 .I pwsafe\-db
 file must not already exist.
+.RE
 .PP
 .B \-\-imp
 [
 .I another-db
 ]
-.RB [ --text | --xml ]
-.br
+[ --text | --xml ]
+.RS 4
 Import another pwsafe db in text/xml format into
 .I pwsafe-db
+.RE
 .PP
 .B \-\-exp
 [
 .I another-db
 ]
-.RB [ --text | --xml ]
-.br
+[ --text | --xml ]
+.RS 4
 Export
 .I pwsafe-db
 to text/xml.
+.RE
 .PP
 .B \-\-add
 .IR field1 = value1 [, field2 = value2 , field3 = value3 ...
 ]
-.br
+.RS 4
 Add an entry to
 .I pwsafe-db
 with the field values as specified.
+Title must be specified.
+Password is auto-generated if not specified.
+.RE
 .PP
 .B \-\-search
 .I <text>
@@ -73,8 +79,9 @@ with the field values as specified.
 [
 .I search-action-options
 ]
-.br
+.RS 4
 Search for and perform an operation on all the matching entries.
+.RE
 .PP
 .B \-\-diff
 .I <another-safe>
@@ -84,8 +91,9 @@ Search for and perform an operation on all the matching entries.
 [
 .I diff-options
 ]
-.br
+.RS 4
 Compare two pwsafe databases
+.RE
 .PP
 .B \-\-sync
 .I <another-safe>
@@ -98,10 +106,11 @@ Compare two pwsafe databases
 [
 .I \-\-yes
 ]
-.br
+.RS 4
 Sync
 .I some
 fields from matching entries in another db.
+.RE
 .PP
 .B \-\-merge
 [
@@ -113,10 +122,11 @@ fields from matching entries in another db.
 [
 .I --yes
 ]
-.br
+.RS 4
 Merge
 .B all
 fields from matching entries in another db.
+.RE
 .PP
 .SH AUTHOR
 Copyright \(co 2017 \fIPassword Safe\fP
