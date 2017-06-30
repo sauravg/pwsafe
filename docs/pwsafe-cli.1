@@ -16,10 +16,17 @@ pwsafe-cli \- The command-line interface to Password Safe (pwsafe.org)
 [
 .IR command\-options " ..."
 ]
+.SH DESCRIPTION
+pwsafe-cli is the command-line version of the popular Password Safe program.
+Currently, it supports only some of the operations supported by the GUI.
+
+.SH COMMANDS
+Commands are what one would like to do with the
+.I pwsafe-db
+\&. A command follows the
+.I pwsafe-db
+argument, followed by options for that command.
 .PP
-Commands are
-.PP
-.RS
 .B \-\-new
 .br
 Create a new safe named
@@ -110,11 +117,6 @@ fields from matching entries in another db.
 Merge
 .B all
 fields from matching entries in another db.
-.RE
-.SH DESCRIPTION
-pwsafe-cli is the command-line version of the popular Password Safe program.
-Currently, it supports only some of the operations supported by the GUI.
-
 .PP
 .SH AUTHOR
 Copyright \(co 2017 \fIPassword Safe\fP
