@@ -1,0 +1,18 @@
+---
+# On the host where you are running ansible (could be linux/osx/whatever)
+# first install the "openbsd_pkg" module, and make sure python version >= 2.5
+#
+- hosts: bsd
+    become: true
+    become_method: su
+  vars:
+      ansible_python_interpreter: /usr/local/bin/python2.7
+  tasks:
+  - name: Install latest g++ compiler for c++11 support
+    openbsd_pkg:
+      name: g++
+      state: latest
+  - name: Install uuid generation lib
+    openbsd_pkg:
+      name: ossp-uuid
+      state: present
