@@ -32,7 +32,7 @@ jobs:
 
     - name: Generate xcconfigs
       working-directory: ${{ github.workspace }}
-      run: Xcode/generate-config -r /usr/local/bin/wx-config > Xcode/pwsafe-release.xcconfig
+      run: Xcode/generate-configs -r /usr/local/bin/wx-config > Xcode/pwsafe-release.xcconfig
     
     - name: Build pwsafe
       working-directory: ${{ github.workspace }}
