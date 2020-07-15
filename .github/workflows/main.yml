@@ -22,6 +22,12 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
+    - name: Force compatible Xcode version
+      run: sudo xcode-select -s /Applications/Xcode_11.4.1.app/Contents/Developer
+    
+    - name: Print Xcode version in use
+      run: xcode-select -p
+      
     # Runs a single command using the runners shell
     - name: Run a one-line script
       run: echo "$GITHUB_WORKSPACE"
