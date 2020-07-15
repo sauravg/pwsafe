@@ -32,4 +32,4 @@ jobs:
       
     - name: Build pwsafe
       working-directory: ${{ github.workspace }}
-      run: xcodebuild -project Xcode/pwsafe-xcode6.xcproj -scheme pwsafe
+      run: xcodebuild -project Xcode/pwsafe-xcode6.xcodeproj -scheme pwsafe
