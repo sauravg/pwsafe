@@ -31,4 +31,5 @@ jobs:
       run: brew install wxwidgets
       
     - name: Build pwsafe
-      run: xcodebuild -project ${{ github.workspace }}/Xcode/pwsafe-xcode6.xcproj -scheme pwsafe
+      working-directory: ${{ github.workspace }}
+      run: xcodebuild -project Xcode/pwsafe-xcode6.xcproj -scheme pwsafe
