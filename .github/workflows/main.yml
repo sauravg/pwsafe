@@ -29,7 +29,11 @@ jobs:
     # Runs a set of commands using the runners shell
     - name: Install wxWidgets
       run: brew install wxwidgets
-      
+
+    - name: Generate xcconfigs
+      working-directory: ${{ github.workspace }}
+      run: Xcode/generate-config -r /usr/local/bin/wx-config > Xcode/pwsafe-release.xcconfig
+    
     - name: Build pwsafe
       working-directory: ${{ github.workspace }}
       run: xcodebuild -project Xcode/pwsafe-xcode6.xcodeproj -scheme pwsafe
