@@ -23,7 +23,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Force compatible Xcode version
-      run: sudo xcode-select -s /Applications/Xcode_11.4.1.app/Contents/Developer
+      run: sudo xcode-select -s /Applications/Xcode_10.3.app/Contents/Developer
     
     - name: Print Xcode version in use
       run: xcode-select -p
