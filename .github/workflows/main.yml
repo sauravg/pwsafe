@@ -48,7 +48,7 @@ jobs:
       run: brew install create-dmg
     
     - name: Get Xcode build output location
-      run: echo '::set-env name=BUILD_OUTPUT_DIR::$(xcodebuild -showBuildSettings -project Xcode/pwsafe-xcode6.xcodeproj | fgrep CONFIGURATION_BUILD_DIR | cut -d= -f2 | sed \'s/^ *\(.*\)/\1/\')'
+      run: echo "::set-env name=BUILD_OUTPUT_DIR::$(xcodebuild -showBuildSettings -project Xcode/pwsafe-xcode6.xcodeproj | fgrep CONFIGURATION_BUILD_DIR | cut -d= -f2 | sed 's/^ *\(.*\)/\1/')"
     
     - name: Create dmg
       run: create-dmg --volname "Password Safe" --volicon "src/ui/wxWidgets/graphics/pwsafe.icns" --eula LICENSE ${{ github.workspace }}/PasswordSafe.dmg "$BUILD_OUTPUT_DIR/pwsafe.app"
