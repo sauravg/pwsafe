@@ -43,3 +43,17 @@ jobs:
     - name: Build pwsafe
       working-directory: ${{ github.workspace }}
       run: xcodebuild -project Xcode/pwsafe-xcode6.xcodeproj -scheme pwsafe
+      
+    - name: Install dependencies for creating dmg
+      run: brew install create-dmg
+    
+    - name: Create dmg
+      run: create-dmg --volname "Password Safe" --volicon "src/ui/wxWidgets/graphics/pwsafe.icns" --eula LICENSE ${{ github.workspace }}/PasswordSafe.dmg "$BUILD_OUTPUT_DIR/pwsafe.app"
+      env:
+        BUILD_OUTPUT_DIR: $(xcodebuild -showBuildSettings -project Xcode/pwsafe-xcode6.xcodeproj | cut -d= -f2 | sed 's/ *\(.*\)/\1/')
+
+    - name: Upload artifacts
+      uses: 'actions/upload-artifact@v2'
+      with:
+        name: PasswordSafe.dmg PasswordSafe${{ github.run_id }}.{{ github.run_number }}.dmg
+        path: ${{ github.workspace }}
