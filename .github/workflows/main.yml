@@ -51,10 +51,10 @@ jobs:
       run: echo "::set-env name=BUILD_OUTPUT_DIR::$(xcodebuild -showBuildSettings -project Xcode/pwsafe-xcode6.xcodeproj | fgrep CONFIGURATION_BUILD_DIR | cut -d= -f2 | sed 's/^ *\(.*\)/\1/')"
     
     - name: Create dmg
-      run: create-dmg --volname "Password Safe" --volicon "src/ui/wxWidgets/graphics/pwsafe.icns" --eula LICENSE ${{ github.workspace }}/PasswordSafe.dmg "$BUILD_OUTPUT_DIR/pwsafe.app"
+      run: create-dmg --volname "Password Safe" --volicon "src/ui/wxWidgets/graphics/pwsafe.icns" --eula LICENSE ${{ github.workspace }}/PasswordSafe.dmg "$BUILD_OUTPUT_DIR/"
 
     - name: Upload artifacts
       uses: 'actions/upload-artifact@v2'
       with:
-        name: PasswordSafe.dmg PasswordSafe${{ github.run_id }}.{{ github.run_number }}.dmg
+        name: PasswordSafe.${{ github.sha }}.dmg
         path: ${{ github.workspace }}
