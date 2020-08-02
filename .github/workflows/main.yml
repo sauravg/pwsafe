@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: mac-pwsafe
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -12,8 +12,21 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
+  build_dylib_bundler:
+    name: Make dylib bundler
+    runs-on: macos-latest
+    steps:
+    - name: Fetch dylib bundler
+      uses: actions/checkout@v2
+      with:
+        repository: 'auriamg/macdylibbundler/'
+
+    - name: Build dylib bundler
+      working-directory: macdylibbundler
+      run: make
+
+  build_mac_pwsafe:
+    name: Build pwsafe for macOS
     # The type of runner that the job will run on
     runs-on: macos-latest
 
@@ -52,7 +65,10 @@ jobs:
 
     - name: Move app to another folder
       run: mkdir "$BUILD_OUTPUT_DIR"/app && mv "$BUILD_OUTPUT_DIR"/pwsafe.app "$BUILD_OUTPUT_DIR"/app/
-      
+
+    - name: Copy dependencies
+      run: ${{ github.workspace }}/macdylibbundler/dylibbundler -b -cd -x "$BUILD_OUTPUT_DIR"/app/pwsafe.app/Contents/MacOS/pwsafe -d "$BUILD_OUTPUT_DIR"/app/pwsafe.app/Contents/MacOS/libs
+
     - name: Create dmg
       run: create-dmg --volname "Password Safe" --volicon "src/ui/wxWidgets/graphics/pwsafe.icns" --eula LICENSE ${{ github.workspace }}/PasswordSafe.dmg "$BUILD_OUTPUT_DIR/app"
 
