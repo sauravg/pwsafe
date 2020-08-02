@@ -19,7 +19,7 @@ jobs:
     - name: Fetch dylib bundler
       uses: actions/checkout@v2
       with:
-        repository: 'auriamg/macdylibbundler/'
+        repository: 'auriamg/macdylibbundler'
 
     - name: Build dylib bundler
       working-directory: macdylibbundler
