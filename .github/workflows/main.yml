@@ -17,12 +17,10 @@ jobs:
     runs-on: macos-latest
     steps:
     - name: Fetch dylib bundler
-      uses: actions/checkout@v2
-      with:
-        repository: 'auriamg/macdylibbundler'
+      run: git clone https://github.com/auriamg/macdylibbundler ~/macdylibbundler
 
     - name: Build dylib bundler
-      working-directory: macdylibbundler
+      working-directory: ~/macdylibbundler
       run: make
 
   build_mac_pwsafe:
@@ -67,7 +65,7 @@ jobs:
       run: mkdir "$BUILD_OUTPUT_DIR"/app && mv "$BUILD_OUTPUT_DIR"/pwsafe.app "$BUILD_OUTPUT_DIR"/app/
 
     - name: Copy dependencies
-      run: ${{ github.workspace }}/macdylibbundler/dylibbundler -b -cd -x "$BUILD_OUTPUT_DIR"/app/pwsafe.app/Contents/MacOS/pwsafe -d "$BUILD_OUTPUT_DIR"/app/pwsafe.app/Contents/MacOS/libs
+      run: ~/macdylibbundler/dylibbundler -b -cd -x "$BUILD_OUTPUT_DIR"/app/pwsafe.app/Contents/MacOS/pwsafe -d "$BUILD_OUTPUT_DIR"/app/pwsafe.app/Contents/MacOS/libs
 
     - name: Create dmg
       run: create-dmg --volname "Password Safe" --volicon "src/ui/wxWidgets/graphics/pwsafe.icns" --eula LICENSE ${{ github.workspace }}/PasswordSafe.dmg "$BUILD_OUTPUT_DIR/app"
