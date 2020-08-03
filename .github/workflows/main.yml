@@ -19,6 +19,9 @@ jobs:
     - name: Fetch dylib bundler
       run: git clone https://github.com/auriamg/macdylibbundler ~/macdylibbundler
 
+    - name: Make sure build tools are available
+      run: sudo xcode-select -s /Applications/Xcode_10.3.app/Contents/Developer
+
     - name: Build dylib bundler
       working-directory: ~/macdylibbundler
       run: make
