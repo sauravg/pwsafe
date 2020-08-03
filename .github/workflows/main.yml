@@ -28,6 +28,12 @@ jobs:
     - name: Print PATH
       run: echo $PATH
 
+    - name: Check if make is available
+      run: which make
+
+    - name: Check if /usr/bin/make is available
+      run: ls -l /usr/bin/make
+
     - name: Build dylib bundler
       working-directory: ~/macdylibbundler/
       run: /usr/bin/make
