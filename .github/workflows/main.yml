@@ -17,7 +17,7 @@ jobs:
     runs-on: macos-latest
     steps:
     - name: Fetch dylib bundler
-      run: git clone https://github.com/auriamg/macdylibbundler ~/macdylibbundler
+      run: git clone https://github.com/auriamg/macdylibbundler ~/work/macdylibbundler
 
     - name: Make sure build tools are available
       run: sudo xcode-select -s /Applications/Xcode_10.3.app/Contents/Developer
@@ -38,7 +38,7 @@ jobs:
       run: |
         pwd
         /usr/bin/make
-      working-directory: ~/macdylibbundler/
+      working-directory: ${{ env.home }}/work/macdylibbundler/
 
   build_mac_pwsafe:
     name: Build pwsafe for macOS
@@ -82,7 +82,7 @@ jobs:
       run: mkdir "$BUILD_OUTPUT_DIR"/app && mv "$BUILD_OUTPUT_DIR"/pwsafe.app "$BUILD_OUTPUT_DIR"/app/
 
     - name: Copy dependencies
-      run: ~/macdylibbundler/dylibbundler -b -cd -x "$BUILD_OUTPUT_DIR"/app/pwsafe.app/Contents/MacOS/pwsafe -d "$BUILD_OUTPUT_DIR"/app/pwsafe.app/Contents/MacOS/libs
+      run: ~/work/macdylibbundler/dylibbundler -b -cd -x "$BUILD_OUTPUT_DIR"/app/pwsafe.app/Contents/MacOS/pwsafe -d "$BUILD_OUTPUT_DIR"/app/pwsafe.app/Contents/MacOS/libs
 
     - name: Create dmg
       run: create-dmg --volname "Password Safe" --volicon "src/ui/wxWidgets/graphics/pwsafe.icns" --eula LICENSE ${{ github.workspace }}/PasswordSafe.dmg "$BUILD_OUTPUT_DIR/app"
