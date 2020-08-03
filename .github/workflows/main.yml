@@ -38,7 +38,7 @@ jobs:
       run: |
         pwd
         /usr/bin/make
-      working-directory: ${{ env.home }}/work/macdylibbundler/
+      working-directory: /Users/runner/work/macdylibbundler/
 
   build_mac_pwsafe:
     name: Build pwsafe for macOS
