@@ -12,34 +12,6 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build_dylib_bundler:
-    name: Make dylib bundler
-    runs-on: macos-latest
-    steps:
-    - name: Fetch dylib bundler
-      run: git clone https://github.com/auriamg/macdylibbundler ~/work/macdylibbundler
-
-    - name: Make sure build tools are available
-      run: sudo xcode-select -s /Applications/Xcode_10.3.app/Contents/Developer
-
-    - name: See where we are
-      run: pwd
-
-    - name: Print PATH
-      run: echo $PATH
-
-    - name: Check if make is available
-      run: which make
-
-    - name: Check if /usr/bin/make is available
-      run: ls -l /usr/bin/make
-
-    - name: Build dylib bundler
-      run: |
-        pwd
-        /usr/bin/make
-      working-directory: /Users/runner/work/macdylibbundler/
-
   build_mac_pwsafe:
     name: Build pwsafe for macOS
     # The type of runner that the job will run on
@@ -71,18 +43,25 @@ jobs:
     - name: Build pwsafe
       working-directory: ${{ github.workspace }}
       run: xcodebuild -project Xcode/pwsafe-xcode6.xcodeproj -scheme pwsafe
-      
-    - name: Install dependencies for creating dmg
-      run: brew install create-dmg
-    
+
     - name: Get Xcode build output location
       run: echo "::set-env name=BUILD_OUTPUT_DIR::$(xcodebuild -showBuildSettings -project Xcode/pwsafe-xcode6.xcodeproj | fgrep CONFIGURATION_BUILD_DIR | cut -d= -f2 | sed 's/^ *\(.*\)/\1/')"
 
     - name: Move app to another folder
       run: mkdir "$BUILD_OUTPUT_DIR"/app && mv "$BUILD_OUTPUT_DIR"/pwsafe.app "$BUILD_OUTPUT_DIR"/app/
 
+    - name: Fetch dylib bundler
+      run: git clone https://github.com/auriamg/macdylibbundler ~/work/macdylibbundler
+
+    - name: Build dylib bundler
+      run: /usr/bin/make
+      working-directory: /Users/runner/work/macdylibbundler/
+
     - name: Copy dependencies
       run: ~/work/macdylibbundler/dylibbundler -b -cd -x "$BUILD_OUTPUT_DIR"/app/pwsafe.app/Contents/MacOS/pwsafe -d "$BUILD_OUTPUT_DIR"/app/pwsafe.app/Contents/MacOS/libs
+
+    - name: Install dependencies for creating dmg
+      run: brew install create-dmg
 
     - name: Create dmg
       run: create-dmg --volname "Password Safe" --volicon "src/ui/wxWidgets/graphics/pwsafe.icns" --eula LICENSE ${{ github.workspace }}/PasswordSafe.dmg "$BUILD_OUTPUT_DIR/app"
