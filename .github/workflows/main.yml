@@ -35,8 +35,10 @@ jobs:
       run: ls -l /usr/bin/make
 
     - name: Build dylib bundler
+      run: |
+        pwd
+        /usr/bin/make
       working-directory: ~/macdylibbundler/
-      run: /usr/bin/make
 
   build_mac_pwsafe:
     name: Build pwsafe for macOS
