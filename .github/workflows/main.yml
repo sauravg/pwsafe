@@ -22,12 +22,15 @@ jobs:
     - name: Make sure build tools are available
       run: sudo xcode-select -s /Applications/Xcode_10.3.app/Contents/Developer
 
+    - name: See where we are
+      run: pwd
+
+    - name: Print PATH
+      run: echo $PATH
+
     - name: Build dylib bundler
-      working-directory: ~/macdylibbundler
-      run: |
-        pwd
-        echo $PATH
-        /usr/bin/make
+      working-directory: ~/macdylibbundler/
+      run: /usr/bin/make
 
   build_mac_pwsafe:
     name: Build pwsafe for macOS
