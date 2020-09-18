@@ -32,32 +32,42 @@ jobs:
     - name: Run a one-line script
       run: echo "$GITHUB_WORKSPACE"
 
-    - name: Set wxWidgets version
-      run: echo "::set-env name=WX_VERS::3.1.4"
+    - name: Set build parameters
+      run: |
+        echo "::set-env name=WX_VERS::3.1.4"
+        echo "::set-env name=MACOS_VER_MIN::10.5"
+
+    - name: Cache wxWidgets checkout
+      id: cache-wxWidgets-checkout
+      uses: actions/cache@v2
+      with:
+        path: ${{ env.home }}/wxWidgets
+        key: wxWidgets-checkout
 
     - name: Cache wxWidgets build
-      id: cache-wxWidgets
+      id: cache-wxWidgets-build
       uses: actions/cache@v2
       with:
         path: ${{ env.home }}/wxbuild
-        key: ${{ env.WX_VERS }}
+        key: ${{ env.WX_VERS }}-${{ env.MACOS_VER_MIN }}
 
-    - name: Download wxWidgets
-      if: steps.cache-wxWigets.outputs.cache-hit != 'true'
+    - name: Checkout wxWidgets
+      if: steps.cache-wxWidgets-checkout.outputs.cache-hit != 'true'
       working-directory: ${{ env.HOME }}
       run: |
-        curl -O https://github.com/wxWidgets/wxWidgets/releases/download/v$WX_VERS/wxWidgets-$WX_VERS.tar.bz2
-        tar tjf $HOME/wxWidgets-$WX_VERS.tar.bz2
-        rm -rf wxbuild
-        mkdir -p wxbuild
+        git clone https://github.com/wxWidgets/wxWidgets.git
 
     - name: Build wxWidgets
-      if: steps.cache-wxWigets.outputs.cache-hit != 'true'
+      if: steps.cache-wxWidgets-build.outputs.cache-hit != 'true'
       working-directory: ${{ env.HOME }}/${{ env.WX_VERS }}
       run: |
-        ./configure --prefix=$HOME/wxbuild --disable-shared --enable-unicode --with-macosx-version-min=10.5
-         make
-         make install
+        git pull origin
+        git reset --hard v{{ env.WX_VERS }}
+        rm -rf $HOME/wxbuild
+        mkdir -p $HOME/wxbuild
+        ./configure --prefix=$HOME/wxbuild --disable-shared --enable-unicode --with-macosx-version-min=$MACOS_VER_MIN
+        make
+        make install
 
     - name: Generate xcconfigs
       working-directory: ${{ github.workspace }}
