@@ -39,12 +39,12 @@ jobs:
       id: cache-wxWidgets
       uses: actions/cache@v2
       with:
-        path: ${{ home }}/wxbuild
-        key: ${{ wx_vers }}
+        path: ${{ env.home }}/wxbuild
+        key: ${{ env.wx_vers }}
 
     - name: Download wxWidgets
       if: steps.cache-wxWigets.outputs.cache-hit != 'true'
-      working-directory: ${{ home }}
+      working-directory: ${{ env.home }}
       run: |
         curl -O https://github.com/wxWidgets/wxWidgets/releases/download/v$WX_VERS/wxWidgets-$WX_VERS.tar.bz2
         tar tjf $HOME/wxWidgets-$WX_VERS.tar.bz2
@@ -53,7 +53,7 @@ jobs:
 
     - name: Build wxWidgets
       if: steps.cache-wxWigets.outputs.cache-hit != 'true'
-      working-directory: ${{ home }}/${{ wx_vers }}
+      working-directory: ${{ env.home }}/${{ env.wx_vers }}
       run: |
         ./configure --prefix=$HOME/wxbuild --disable-shared --enable-unicode --with-macosx-version-min=10.5
          make
