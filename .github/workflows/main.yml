@@ -63,6 +63,7 @@ jobs:
       run: |
         git pull --ff-only origin
         git -C $WX_SRC_DIR reset --hard v${{ env.WX_VERS }}
+        git -C $WX_SRC_DIR submodule update --init
         rm -rf $WX_BUILD_DIR
         mkdir -p $WX_BUILD_DIR
         cd $WX_SRC_DIR
