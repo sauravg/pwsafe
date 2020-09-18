@@ -41,7 +41,7 @@ jobs:
       id: cache-wxWidgets-checkout
       uses: actions/cache@v2
       with:
-        path: ${{ env.home }}/wxWidgets
+        path: ${{ env.HOME }}/wxWidgets
         key: wxWidgets-checkout
 
     - name: Cache wxWidgets build
@@ -59,7 +59,7 @@ jobs:
 
     - name: Build wxWidgets
       if: steps.cache-wxWidgets-build.outputs.cache-hit != 'true'
-      working-directory: ${{ env.HOME }}/${{ env.WX_VERS }}
+      working-directory: ${{ env.HOME }}/wxWidgets
       run: |
         git pull origin
         git reset --hard v{{ env.WX_VERS }}
