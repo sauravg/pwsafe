@@ -33,7 +33,7 @@ jobs:
       run: echo "$GITHUB_WORKSPACE"
 
     - name: Set wxWidgets version
-      run: echo "::set-env name=WX_VERS::3.0.5"
+      run: echo "::set-env name=WX_VERS::3.1.4"
 
     - name: Cache wxWidgets build
       id: cache-wxWidgets
@@ -55,7 +55,7 @@ jobs:
       if: steps.cache-wxWigets.outputs.cache-hit != 'true'
       working-directory: ${{ home }}/${{ wx_vers }}
       run: |
-        ./configure --prefix=$HOME/wxbuild --disable-shared --enable-unicode
+        ./configure --prefix=$HOME/wxbuild --disable-shared --enable-unicode --with-macosx-version-min=10.5
          make
          make install
 
