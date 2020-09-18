@@ -32,13 +32,36 @@ jobs:
     - name: Run a one-line script
       run: echo "$GITHUB_WORKSPACE"
 
-    # Runs a set of commands using the runners shell
-    - name: Install wxWidgets
-      run: brew install wxwidgets
+    - name: Set wxWidgets version
+      run: echo "::set-env name=WX_VERS::3.0.5"
+
+    - name: Cache wxWidgets build
+      id: cache-wxWidgets
+      uses: actions/cache@v2
+      with:
+        path: ${{ home }}/wxbuild
+        key: ${{ wx_vers }}
+
+    - name: Download wxWidgets
+      if: steps.cache-wxWigets.outputs.cache-hit != 'true'
+      working-directory: ${{ home }}
+      run: |
+        curl -O https://github.com/wxWidgets/wxWidgets/releases/download/v$WX_VERS/wxWidgets-$WX_VERS.tar.bz2
+        tar tjf $HOME/wxWidgets-$WX_VERS.tar.bz2
+        rm -rf wxbuild
+        mkdir -p wxbuild
+
+    - name: Build wxWidgets
+      if: steps.cache-wxWigets.outputs.cache-hit != 'true'
+      working-directory: ${{ home }}/${{ wx_vers }}
+      run: |
+        ./configure --prefix=$HOME/wxbuild --disable-shared --enable-unicode
+         make
+         make install
 
     - name: Generate xcconfigs
       working-directory: ${{ github.workspace }}
-      run: Xcode/generate-configs -r /usr/local/bin/wx-config > Xcode/pwsafe-release.xcconfig
+      run: Xcode/generate-configs -r $HOME/wxbuild/bin/wx-config > Xcode/pwsafe-release.xcconfig
     
     - name: Build pwsafe
       working-directory: ${{ github.workspace }}
@@ -49,16 +72,6 @@ jobs:
 
     - name: Move app to another folder
       run: mkdir "$BUILD_OUTPUT_DIR"/app && mv "$BUILD_OUTPUT_DIR"/pwsafe.app "$BUILD_OUTPUT_DIR"/app/
-
-    - name: Fetch dylib bundler
-      run: git clone https://github.com/auriamg/macdylibbundler ~/work/macdylibbundler
-
-    - name: Build dylib bundler
-      run: /usr/bin/make
-      working-directory: /Users/runner/work/macdylibbundler/
-
-    - name: Copy dependencies
-      run: ~/work/macdylibbundler/dylibbundler -b -cd -x "$BUILD_OUTPUT_DIR"/app/pwsafe.app/Contents/MacOS/pwsafe -d "$BUILD_OUTPUT_DIR"/app/pwsafe.app/Contents/MacOS/libs -p '@executable_path/libs/'
 
     - name: Install dependencies for creating dmg
       run: brew install create-dmg
