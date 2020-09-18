@@ -61,10 +61,8 @@ jobs:
       if: steps.cache-wxWidgets-build.outputs.cache-hit != 'true'
       working-directory: ${{ env.WX_SRC_DIR }}
       run: |
-        pwd
-        ls -l
-        git pull origin
-        git -C $WX_SRC_DIR reset --hard v{{ env.WX_VERS }}
+        git pull --ff-only origin
+        git -C $WX_SRC_DIR reset --hard v${{ env.WX_VERS }}
         rm -rf $WX_BUILD_DIR
         mkdir -p $WX_BUILD_DIR
         cd $WX_SRC_DIR
