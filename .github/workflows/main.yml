@@ -55,10 +55,7 @@ jobs:
 
     - name: Checkout wxWidgets
       if: steps.cache-wxWidgets-checkout.outputs.cache-hit != 'true'
-      uses: actions/checkout@v2
-      with:
-        repository: wxWidgets/wxWidgets
-        path: ../wxWidgets
+      run: git clone https://github.com/wxWidgets/wxWidgets.git $WX_SRC_DIR
 
     - name: Build wxWidgets
       if: steps.cache-wxWidgets-build.outputs.cache-hit != 'true'
