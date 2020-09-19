@@ -35,7 +35,7 @@ jobs:
     - name: Set build parameters
       run: |
         echo "::set-env name=WX_VERS::3.0.5"
-        echo "::set-env name=MACOS_VER_MIN::10.12"
+        echo "::set-env name=MACOS_VER_MIN::10.13"
         echo "::set-env name=WX_SRC_DIR::$GITHUB_WORKSPACE/../wxWidgets"
         echo "::set-env name=WX_BUILD_DIR::$GITHUB_WORKSPACE/../wxbuild"
 
