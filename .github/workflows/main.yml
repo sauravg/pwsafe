@@ -22,12 +22,6 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    - name: Force compatible Xcode version
-      run: sudo xcode-select -s /Applications/Xcode_10.3.app/Contents/Developer
-    
-    - name: Print Xcode version in use
-      run: xcode-select -p
-      
     # Runs a single command using the runners shell
     - name: Run a one-line script
       run: echo "$GITHUB_WORKSPACE"
@@ -35,9 +29,16 @@ jobs:
     - name: Set build parameters
       run: |
         echo "::set-env name=WX_VERS::3.0.5"
-        echo "::set-env name=MACOS_VER_MIN::10.14"
+        echo "::set-env name=MACOS_VER_MIN::10.9"
         echo "::set-env name=WX_SRC_DIR::$GITHUB_WORKSPACE/../wxWidgets"
         echo "::set-env name=WX_BUILD_DIR::$GITHUB_WORKSPACE/../wxbuild"
+        echo "::set-env name=XCODE_VER::11.7"
+
+    - name: Force compatible Xcode version
+      run: sudo xcode-select -s /Applications/Xcode_${XCODE_VER}.app/Contents/Developer
+
+    - name: Print Xcode version in use
+      run: xcode-select -p
 
     - name: Cache wxWidgets checkout
       id: cache-wxWidgets-checkout
@@ -51,7 +52,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ${{ env.WX_BUILD_DIR }}
-        key: ${{ env.WX_VERS }}-${{ env.MACOS_VER_MIN }}
+        key: ${{ env.WX_VERS }}-${{ env.MACOS_VER_MIN }}-${{ env.XCODE_VER }}
 
     - name: Checkout wxWidgets
       if: steps.cache-wxWidgets-checkout.outputs.cache-hit != 'true'
