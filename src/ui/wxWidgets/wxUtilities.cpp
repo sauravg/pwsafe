@@ -175,7 +175,7 @@ int pless(int* first, int* second) { return *first - *second; }
 // on Fedora or Ubuntu
 bool IsTaskBarIconAvailable()
 {
-#if defined(__WXGTK__)
+#if defined(__WXGTK__) && !defined(__OpenBSD__)
   const wxVersionInfo verInfo = wxGetLibraryVersionInfo();
   int major = verInfo.GetMajor();
   int minor = verInfo.GetMinor();
